@@ -5,6 +5,7 @@ import by.gomel.noyvik.library.model.Role;
 import by.gomel.noyvik.library.model.User;
 import by.gomel.noyvik.library.persistance.connection.JpaEntityManagerFactoryUtil;
 import by.gomel.noyvik.library.persistance.dao.user.UserDaoJpaImpl;
+import by.gomel.noyvik.library.persistance.dao.user.UserDaoJsqlJpaImpl;
 import org.h2.tools.Server;
 
 import javax.persistence.EntityManager;
@@ -29,7 +30,7 @@ public class Runner {
     public static void main(String[] args) {
 
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        UserDaoJpaImpl userDaoJpa = new UserDaoJpaImpl();
+        UserDaoJsqlJpaImpl userDaoJpa = new UserDaoJsqlJpaImpl();
 
 
         User iAm = new User("Новик Иван", "noyvikivan@mail.ru");

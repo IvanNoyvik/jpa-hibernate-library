@@ -13,6 +13,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Entity
+@Table(name = "USERS")
 public class User {
 
     @Id
@@ -29,6 +30,10 @@ public class User {
     cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Book> books = new HashSet<>();
+
     public User(String name, String email) {
         this.name = name;
         this.email = email;
@@ -42,6 +47,16 @@ public class User {
     public void removeRole(Role role) {
         roles.remove(role);
         role.setUser(null);
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+        book.setUser(this);
+    }
+
+    public void removeBook(Book book) {
+        books.remove(book);
+        book.setUser(null);
     }
 
     public void addAuthenticate(Authenticate authenticate) {

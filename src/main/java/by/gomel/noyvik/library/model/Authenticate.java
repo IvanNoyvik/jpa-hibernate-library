@@ -11,6 +11,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Entity
+@Table(name = "AUTHENTICATES")
 public class Authenticate {
 
     @Id
