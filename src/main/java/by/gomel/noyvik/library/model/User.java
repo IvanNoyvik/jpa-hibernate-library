@@ -1,17 +1,15 @@
 package by.gomel.noyvik.library.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @NoArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode(exclude = {"authenticate", "roles", "orders", "messages", "status"})
+@ToString(exclude = {"authenticate", "roles", "orders", "messages", "status"})
 @Entity
 @Table(name = "USERS")
 public class User {
@@ -26,37 +24,28 @@ public class User {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private Authenticate authenticate;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Role> roles = new HashSet<>();
+
+
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private UserStatus status;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Book> books = new HashSet<>();
+    private List<Message> messages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders = new HashSet<>();
+
 
     public User(String name, String email) {
         this.name = name;
         this.email = email;
-    }
 
-    public void addRole(Role role) {
-        roles.add(role);
-        role.setUser(this);
-    }
-
-    public void removeRole(Role role) {
-        roles.remove(role);
-        role.setUser(null);
-    }
-
-    public void addBook(Book book) {
-        books.add(book);
-        book.setUser(this);
-    }
-
-    public void removeBook(Book book) {
-        books.remove(book);
-        book.setUser(null);
     }
 
     public void addAuthenticate(Authenticate authenticate) {
@@ -65,33 +54,49 @@ public class User {
     }
 
     public void removeAuthenticate() {
-        this.authenticate = null;
         authenticate.setUser(null);
+        this.setAuthenticate(null);
 
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(email, user.email);
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add(this);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, email);
+    public void removeRole(Role role) {
+        roles.remove(role);
+        role.getUsers().remove(this);
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+    public void addStatus(UserStatus status) {
+        this.setStatus(status);
+        status.getUsers().add(this);
     }
+
+    public void removeStatus() {
+        this.setStatus(null);
+        status.getUsers().remove(this);
+    }
+
+    public void addMessage(Message message) {
+        messages.add(message);
+        message.setUser(this);
+    }
+
+    public void removeMessage(Message message) {
+        messages.remove(message);
+        message.setUser(null);
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
+        order.setUser(this);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        order.setUser(null);
+    }
+
 }

@@ -1,15 +1,16 @@
 package by.gomel.noyvik.library.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode(exclude = "users")
+@ToString(exclude = "users")
 @Entity
 @Table(name = "ROLES")
 public class Role {
@@ -20,9 +21,11 @@ public class Role {
 
     private String role;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "USERS_ROLES",
+    joinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID"),
+    inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
+    private Set<User> users = new HashSet<>();
 
 
     public Role(String role) {
@@ -30,33 +33,14 @@ public class Role {
     }
 
     public void addUser(User user) {
-        this.user = user;
+        users.add(user);
         user.getRoles().add(this);
     }
 
     public void removeUser(User user) {
-        this.user = null;
+        users.remove(user);
         user.getRoles().remove(this);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role1 = (Role) o;
-        return Objects.equals(role, role1.role);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(role);
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", role='" + role + '\'' +
-                '}';
-    }
 }

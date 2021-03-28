@@ -1,16 +1,16 @@
 package by.gomel.noyvik.library.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.Set;
 
 
 @NoArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode(exclude = {"author", "genres", "orders"})
+@ToString(exclude = {"author", "genres", "orders"})
 @Entity
 @Table(name = "BOOKS")
 public class Book {
@@ -20,10 +20,20 @@ public class Book {
     private Long id;
     private String title;
     private String description;
+    private byte[] image;
+    private int quantity;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    private Author author;
+
+    @ManyToMany(mappedBy = "books", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Genre> genres;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders;
+
 
     public Book(Long id, String title, String description) {
         this.id = id;
@@ -36,28 +46,33 @@ public class Book {
         this.description = description;
     }
 
-    public void addUser(User user) {
-        this.user = user;
-        user.getBooks().add(this);
+    public void addOrder(Order order) {
+        orders.add(order);
+        order.setBook(this);
     }
 
-    public void removeUser(User user) {
-        this.user = null;
-        user.getBooks().remove(this);
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        order.setBook(null);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return Objects.equals(id, book.id) &&
-                Objects.equals(title, book.title) &&
-                Objects.equals(description, book.description);
+    public void addAuthor(Author author) {
+        this.setAuthor(author);
+        author.getBooks().add(this);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, description);
+    public void removeAuthor() {
+        author.getBooks().remove(this);
+        this.setAuthor(null);
+    }
+
+    public void addGenre(Genre genre) {
+        genres.add(genre);
+        genre.getBooks().add(this);
+    }
+
+    public void removeGenre(Genre genre) {
+        genres.remove(genre);
+        genre.getBooks().remove(this);
     }
 }

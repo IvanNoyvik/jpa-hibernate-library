@@ -1,15 +1,15 @@
 package by.gomel.noyvik.library.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode(exclude = "user")
+@ToString(exclude = "user")
 @Entity
 @Table(name = "AUTHENTICATES")
 public class Authenticate {
@@ -18,6 +18,7 @@ public class Authenticate {
     private Long id;
     private String login;
     private String password;
+    private LocalDate unlockedDate = LocalDate.now();
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
@@ -34,33 +35,10 @@ public class Authenticate {
     }
 
     public void removeUser() {
-        this.user = null;
         user.setAuthenticate(null);
+        this.setUser(null);
 
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Authenticate that = (Authenticate) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(login, that.login) &&
-                Objects.equals(password, that.password);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, login, password);
-    }
-
-    @Override
-    public String toString() {
-        return "Authenticate{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }
