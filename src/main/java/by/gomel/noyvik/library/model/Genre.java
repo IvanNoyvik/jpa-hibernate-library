@@ -13,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(name = "GENRES")
 public class Genre {
 
     @Id
@@ -23,8 +24,8 @@ public class Genre {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "BOOKS_GENRES",
-            joinColumns = @JoinColumn(name = "GENRE_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID"))
+            joinColumns = @JoinColumn(name = "GENRES_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "BOOKS_ID", referencedColumnName = "ID"))
     private Set<Book> books = new HashSet<>();
 
 

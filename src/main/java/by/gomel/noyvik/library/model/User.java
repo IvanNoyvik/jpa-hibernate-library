@@ -30,7 +30,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "STATUSES_ID", referencedColumnName = "ID")
     private UserStatus status;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,

@@ -24,7 +24,7 @@ public class Book {
     private int quantity;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @JoinColumn(name = "AUTHORS_ID", referencedColumnName = "ID")
     private Author author;
 
     @ManyToMany(mappedBy = "books", cascade = {CascadeType.PERSIST, CascadeType.MERGE})

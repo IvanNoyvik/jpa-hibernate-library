@@ -11,11 +11,13 @@ import java.time.LocalDate;
 @ToString(exclude = "user")
 @Setter
 @Getter
+@Table(name = "MESSAGES")
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "DATE_SENT")
     private LocalDate dateSent;
     private String content;
 

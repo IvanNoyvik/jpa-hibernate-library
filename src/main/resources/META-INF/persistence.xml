@@ -24,9 +24,9 @@
 
             <property name="javax.persistence.schema-generation.database.action" value="create"/>
 
-<!--            <property name="javax.persistence.schema-generation.create-script-source"-->
-<!--                      value="script/DDL-initialization.sql"/>-->
-<!--            <property name="javax.persistence.sql-load-script-source" value="script/DML-initialization.sql"/>-->
+            <property name="javax.persistence.schema-generation.create-script-source"
+                      value="script/DDL-initialization.sql"/>
+            <property name="javax.persistence.sql-load-script-source" value="script/DML-initialization.sql"/>
 
 
 

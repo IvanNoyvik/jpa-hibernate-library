@@ -12,12 +12,14 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
+@Table(name = "ORDERS")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate date;
+    @Column(name = "DATE_RECEIVING")
+    private LocalDate dateReceiving;
     private int duration;
 
     @ManyToOne(fetch = FetchType.LAZY,
@@ -31,8 +33,8 @@ public class Order {
     private User user;
 
 
-    public Order(LocalDate date, int duration, Book book, User user) {
-        this.date = date;
+    public Order(LocalDate dateReceiving, int duration, Book book, User user) {
+        this.dateReceiving = dateReceiving;
         this.duration = duration;
         this.book = book;
         this.user = user;

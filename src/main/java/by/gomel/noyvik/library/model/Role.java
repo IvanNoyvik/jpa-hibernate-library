@@ -23,8 +23,8 @@ public class Role {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "USERS_ROLES",
-    joinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID"),
-    inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
+    joinColumns = @JoinColumn(name = "ROLES_ID", referencedColumnName = "ID"),
+    inverseJoinColumns = @JoinColumn(name = "USERS_ID", referencedColumnName = "ID"))
     private Set<User> users = new HashSet<>();
 
 
