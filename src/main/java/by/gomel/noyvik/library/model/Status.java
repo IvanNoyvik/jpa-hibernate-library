@@ -15,7 +15,7 @@ import java.util.Set;
 @ToString(exclude = "users")
 @Entity
 @Table(name = "STATUSES")
-public class UserStatus {
+public class Status {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class UserStatus {
             cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<User> users = new HashSet<>();
 
-    public UserStatus() {
+    public Status() {
     }
 
     public void addUser(User user) {

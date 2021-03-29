@@ -1,15 +1,14 @@
-package by.gomel.noyvik.library.persistance.dao.user;
+package by.gomel.noyvik.library.persistance.dao.impl;
 
 
 import by.gomel.noyvik.library.model.User;
-import by.gomel.noyvik.library.persistance.dao.AbstractCrudDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDaoJsqlJpaImpl extends AbstractCrudDao<User> {
+public class UserDaoJsqlJpaImpl extends AbstractJpaCrudDao<User> {
 
     @Override
     public List<User> findAll() {

@@ -31,7 +31,7 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "STATUSES_ID", referencedColumnName = "ID")
-    private UserStatus status;
+    private Status status;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
@@ -69,7 +69,7 @@ public class User {
         role.getUsers().remove(this);
     }
 
-    public void addStatus(UserStatus status) {
+    public void addStatus(Status status) {
         this.setStatus(status);
         status.getUsers().add(this);
     }

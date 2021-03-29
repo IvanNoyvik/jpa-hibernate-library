@@ -1,21 +1,26 @@
-package by.gomel.noyvik.library.persistance.dao;
+package by.gomel.noyvik.library.persistance.dao.impl;
 
 
 import by.gomel.noyvik.library.persistance.connection.JpaEntityManagerFactoryUtil;
+import by.gomel.noyvik.library.persistance.connection.ProviderDao;
+import by.gomel.noyvik.library.persistance.dao.CrudDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class AbstractCrudDao<T> {
+public abstract class AbstractJpaCrudDao<T> implements CrudDao<T> {
 
     protected  final EntityManagerFactory entityManagerFactory = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
+
+    protected final ProviderDao providerDao = ProviderDao.getInstance();
 
     public Class getGenericClass() {
         return (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
+    @Override
     public T findById(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         T t = (T) entityManager.find(getGenericClass(), id);
@@ -23,6 +28,7 @@ public abstract class AbstractCrudDao<T> {
         return t;
     }
 
+    @Override
     public List<T> findAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<T> users = entityManager.createQuery("from " + getGenericClass().getSimpleName(), getGenericClass()).getResultList();
@@ -30,6 +36,7 @@ public abstract class AbstractCrudDao<T> {
         return users;
     }
 
+    @Override
     public T save(T t) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -39,6 +46,7 @@ public abstract class AbstractCrudDao<T> {
         return t;
     }
 
+    @Override
     public T update(T t) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -48,6 +56,7 @@ public abstract class AbstractCrudDao<T> {
         return t;
     }
 
+    @Override
     public void deleteById(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         T t = (T) entityManager.find(getGenericClass(), id);

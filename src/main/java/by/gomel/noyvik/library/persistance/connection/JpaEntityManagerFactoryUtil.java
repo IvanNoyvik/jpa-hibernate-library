@@ -8,6 +8,7 @@ public final class JpaEntityManagerFactoryUtil {
 
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY;
 
+
     static {
         ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("library");
     }
