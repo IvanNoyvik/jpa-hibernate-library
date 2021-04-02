@@ -13,12 +13,12 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
 
 
     @Override
-    public List<Order> findByBookId(long id) {
+    public List<Order> findByBookId(Long id) {
         return null;
     }
 
     @Override
-    public List<Order> findByUserId(long id) {
+    public List<Order> findByUserId(Long id) {
         return null;
     }
 
@@ -28,12 +28,12 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
     }
 
     @Override
-    public boolean findByBookAndUserId(long bookId, long userId) {
+    public boolean findByBookAndUserId(Long bookId, Long userId) {
         return false;
     }
 
     @Override
-    public int findNumberOfOverdueOrdersByUserId(long userId) {
+    public int findNumberOfOverdueOrdersByUserId(Long userId) {
         return 0;
     }
 }

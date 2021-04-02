@@ -6,9 +6,9 @@ import java.io.InputStream;
 
 public interface BookDao extends CrudDao<Book> {
 
-    byte[] findImageById(long id);
+    byte[] findImageById(Long id);
 
-    void addImage(long id, InputStream inputStream);
+    void addImage(Long id, InputStream inputStream);
 
     boolean findByTitleAndAuthor(String title, String author);
 

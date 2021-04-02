@@ -19,7 +19,7 @@ public class UserDaoJsqlJpaImpl extends AbstractJpaCrudDao<User> {
     }
 
     @Override
-    public User findById(long id) {
+    public User findById(Long id) {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         User user =  entityManager.createQuery("select u from User u where u.id = ?1", User.class).setParameter(1, id).getSingleResult();
@@ -73,7 +73,7 @@ public class UserDaoJsqlJpaImpl extends AbstractJpaCrudDao<User> {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
 
         EntityManager entityManager = null;
         try {

@@ -21,7 +21,7 @@ public abstract class AbstractJpaCrudDao<T> implements CrudDao<T> {
     }
 
     @Override
-    public T findById(long id) {
+    public T findById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         T t = (T) entityManager.find(getGenericClass(), id);
         entityManager.close();
@@ -57,7 +57,7 @@ public abstract class AbstractJpaCrudDao<T> implements CrudDao<T> {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         T t = (T) entityManager.find(getGenericClass(), id);
         entityManager.getTransaction().begin();

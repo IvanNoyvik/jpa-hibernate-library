@@ -5,8 +5,15 @@ import by.gomel.noyvik.library.model.Book;
 import java.io.InputStream;
 import java.util.List;
 
-public interface BookService {
-    List<Book> findAll();
+public interface BookService extends CrudService<Book> {
 
-    void addImage(long id, InputStream inputStream);
+
+
+    byte[] findImageById(Long id);
+
+    void addImage(Long id, InputStream inputStream);
+
+    boolean findByTitleAndAuthor(String title, String author);
+
+    Book save(String title, String description, int quantity, String genres, String author);
 }

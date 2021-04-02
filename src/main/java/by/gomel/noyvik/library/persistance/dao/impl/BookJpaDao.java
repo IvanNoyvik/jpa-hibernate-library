@@ -13,12 +13,12 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
 
 
     @Override
-    public byte[] findImageById(long id) {
+    public byte[] findImageById(Long id) {
         return new byte[0];
     }
 
     @Override
-    public void addImage(long id, InputStream inputStream) {
+    public void addImage(Long id, InputStream inputStream) {
 
     }
 

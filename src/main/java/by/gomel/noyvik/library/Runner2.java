@@ -1,6 +1,9 @@
 package by.gomel.noyvik.library;
 
+import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.persistance.connection.JpaEntityManagerFactoryUtil;
+import by.gomel.noyvik.library.service.BookService;
+import by.gomel.noyvik.library.service.impl.BookServiceImpl;
 import org.h2.tools.Server;
 
 import javax.persistence.EntityManager;
@@ -24,7 +27,16 @@ public class Runner2 {
     public static void main(String[] args) {
 
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-//        NewUserDaoJpaImpl newUserDaoJpa = new NewUserDaoJpaImpl();
+
+        BookService bookService = new BookServiceImpl();
+
+        Book book = bookService.findById(1L);
+        System.out.println(book.getAuthor());
+        System.out.println(book.getOrders());
+        System.out.println(book.getGenres());
+
+        System.out.println(book);
+
 
     }
 }

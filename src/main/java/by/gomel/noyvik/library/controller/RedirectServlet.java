@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "RedirectServlet", urlPatterns = {"/redirect"})
-public class RedirectServlet extends HttpServlet implements SetAttribute {
+public class RedirectServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -25,7 +25,7 @@ public class RedirectServlet extends HttpServlet implements SetAttribute {
         if (target == null){
             target = "main";
         }
-        setAttribute(target, request);
+        SetAttribute.setAttribute(target, request);
         String path = "/" + target + ".jsp";
         getServletContext().getRequestDispatcher(path).forward(request, response);
     }

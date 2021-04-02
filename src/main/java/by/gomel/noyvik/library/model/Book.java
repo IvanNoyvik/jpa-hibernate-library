@@ -7,11 +7,13 @@ import java.util.Set;
 
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @EqualsAndHashCode(exclude = {"author", "genres", "orders"})
 @ToString(exclude = {"author", "genres", "orders"})
 @Entity
+@Builder
 @Table(name = "BOOKS")
 public class Book {
 

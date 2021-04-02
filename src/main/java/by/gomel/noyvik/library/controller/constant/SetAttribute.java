@@ -5,6 +5,7 @@ package by.gomel.noyvik.library.controller.constant;
 import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.service.BookService;
 import by.gomel.noyvik.library.service.impl.BookServiceImpl;
+import by.gomel.noyvik.library.service.provider.ProviderService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -14,16 +15,18 @@ import java.util.Map;
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.MESSAGES;
 
-public interface SetAttribute {
+public abstract class SetAttribute {
 
-    default void setAttribute(String target, HttpServletRequest request){
+    private static final ProviderService PROVIDER_SERVICE = ProviderService.getInstance();
+
+    public static void setAttribute(String target, HttpServletRequest request){
 
         String resp = request.getParameter("resp");
         request.setAttribute("resp", resp);
 
         if (target.equalsIgnoreCase(MAIN_JSP)){
 
-            BookService bookService = new BookServiceImpl();
+            BookService bookService = PROVIDER_SERVICE.getBookService();
             List<Book> books = bookService.findAll();
             request.setAttribute(BOOKS, books);
         }

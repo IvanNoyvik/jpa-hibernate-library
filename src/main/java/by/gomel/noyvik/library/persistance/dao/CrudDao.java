@@ -5,7 +5,7 @@ import java.util.List;
 public interface CrudDao<T> {
 
 
-    T findById(long id);
+    T findById(Long id);
 
     List<T> findAll();
 
@@ -13,5 +13,5 @@ public interface CrudDao<T> {
 
     T update(T t);
 
-    void deleteById(long id);
+    void deleteById(Long id);
 }

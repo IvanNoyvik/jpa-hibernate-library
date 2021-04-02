@@ -1,5 +1,6 @@
 package by.gomel.noyvik.library.persistance.connection;
 
+import by.gomel.noyvik.library.model.*;
 import by.gomel.noyvik.library.persistance.dao.*;
 import by.gomel.noyvik.library.persistance.dao.impl.*;
 
@@ -60,5 +61,33 @@ public final class ProviderDao {
 
     public UserDao getUserDao() {
         return userDao;
+    }
+
+
+
+    public <T> CrudDao<?> getDaoByType(Class<T> clazz){
+
+
+        if (Authenticate.class.equals(clazz)) {
+            return getAuthenticateDao();
+        } else if (Author.class.equals(clazz)) {
+            return getAuthorDao();
+        } else if (Book.class.equals(clazz)) {
+            return getBookDao();
+        } else if (Genre.class.equals(clazz)) {
+            return getGenreDao();
+        } else if (Message.class.equals(clazz)) {
+            return getMessageDao();
+        } else if (Order.class.equals(clazz)) {
+            return getOrderDao();
+        } else if (Role.class.equals(clazz)) {
+            return getRoleDao();
+        } else if (Status.class.equals(clazz)) {
+            return getStatusDao();
+        } else if (User.class.equals(clazz)) {
+            return getUserDao();
+        } else {
+            return null;
+        }
     }
 }

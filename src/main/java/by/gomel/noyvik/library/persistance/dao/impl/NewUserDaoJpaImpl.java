@@ -26,7 +26,7 @@
 //    }
 //
 //    @Override
-//    public NewUser findById(long id) {
+//    public NewUser findById(Long id) {
 //
 //        EntityManager entityManager = entityManagerFactory.createEntityManager();
 //        NewUser user =  entityManager.createQuery("select u from NewUser u where u.id = ?1", NewUser.class).setParameter(1, id).getSingleResult();
@@ -80,7 +80,7 @@
 //    }
 //
 //    @Override
-//    public void deleteById(long id) {
+//    public void deleteById(Long id) {
 //
 //        EntityManager entityManager = null;
 //        try {

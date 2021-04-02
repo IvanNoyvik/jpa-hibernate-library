@@ -1,9 +1,8 @@
 package by.gomel.noyvik.library.controller;
 
 import by.gomel.noyvik.library.service.BookService;
-import by.gomel.noyvik.library.service.ProviderService;
+import by.gomel.noyvik.library.service.provider.ProviderService;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

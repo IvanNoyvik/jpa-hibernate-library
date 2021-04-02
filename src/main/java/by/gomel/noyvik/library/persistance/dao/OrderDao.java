@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface OrderDao extends CrudDao<Order> {
 
-    List<Order> findByBookId(long id);
+    List<Order> findByBookId(Long id);
 
-    List<Order> findByUserId(long id);
+    List<Order> findByUserId(Long id);
 
     List<Order> findAllOverdueOrder();
 
-    boolean findByBookAndUserId(long bookId, long userId);
+    boolean findByBookAndUserId(Long bookId, Long userId);
 
-    int findNumberOfOverdueOrdersByUserId(long userId);
+    int findNumberOfOverdueOrdersByUserId(Long userId);
 
 }

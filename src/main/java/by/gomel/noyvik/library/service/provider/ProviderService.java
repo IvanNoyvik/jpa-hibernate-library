@@ -1,5 +1,6 @@
-package by.gomel.noyvik.library.service;
+package by.gomel.noyvik.library.service.provider;
 
+import by.gomel.noyvik.library.service.BookService;
 import by.gomel.noyvik.library.service.impl.BookServiceImpl;
 
 public final class ProviderService {

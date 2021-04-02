@@ -61,7 +61,7 @@
                             <select name="genre">
                                 <option disabled>Select genre</option>
                                 <c:forEach items="${requestScope.genres}" var="genre">
-                                    <option value="${genre.id}">${genre.genre}</option>
+                                    <option value="${genre.genre}">${genre.genre}</option>
                                 </c:forEach>
                             </select>
                         </label>
@@ -70,7 +70,7 @@
                         <label> Author:
                             <select name="author">
                                 <c:forEach items="${requestScope.authors}" var="author">
-                                    <option value="${author.id}">${author.author}</option>
+                                    <option value="${author.author}">${author.author}</option>
                                 </c:forEach>
                             </select>
                         </label>

@@ -1,6 +1,7 @@
 package by.gomel.noyvik.library.controller;
 
 import by.gomel.noyvik.library.controller.constant.SetAttribute;
+import by.gomel.noyvik.library.service.provider.ProviderService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -11,11 +12,13 @@ import java.io.IOException;
 
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
 
-public abstract class FrontCommand implements SetAttribute {
+public abstract class FrontCommand {
 
     protected ServletContext context;
     protected HttpServletRequest request;
     protected HttpServletResponse response;
+    protected final ProviderService PROVIDER_SERVICE = ProviderService.getInstance();
+
 
     public void init(
             ServletContext servletContext,
@@ -30,7 +33,7 @@ public abstract class FrontCommand implements SetAttribute {
 
     protected void forward(String target) throws ServletException, IOException {
 
-            setAttribute(target, request);
+            SetAttribute.setAttribute(target, request);
 
             target = PREFIX + target + POSTFIX;
             RequestDispatcher dispatcher = context.getRequestDispatcher(target);
