@@ -15,9 +15,12 @@ import java.util.Map;
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.MESSAGES;
 
-public abstract class SetAttribute {
+public class SetAttribute {
+
 
     private static final ProviderService PROVIDER_SERVICE = ProviderService.getInstance();
+
+    private SetAttribute(){}
 
     public static void setAttribute(String target, HttpServletRequest request){
 

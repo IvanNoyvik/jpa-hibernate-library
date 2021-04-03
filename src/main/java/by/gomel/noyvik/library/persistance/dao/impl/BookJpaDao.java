@@ -12,6 +12,7 @@ import java.io.InputStream;
 public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
 
 
+    //TODO !!!!!!!!!!!!!!!!!!!!!!!
     @Override
     public byte[] findImageById(Long id) {
         return new byte[0];
