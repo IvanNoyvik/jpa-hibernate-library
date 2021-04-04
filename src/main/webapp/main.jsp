@@ -51,7 +51,7 @@
 
                     <div class="templatemo_product_box">
 
-                        <h1>${book.title} <span>(<%--${book.author.author}--%>autor)</span></h1> <%--todo author--%>
+                        <h1>${book.title} <span>(${book.author.author})</span></h1>
 
                         <c:url value="/front" var="image">
                             <c:param name="bookId" value="${book.id}"/>

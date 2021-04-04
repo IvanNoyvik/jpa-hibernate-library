@@ -18,6 +18,7 @@ public class Authenticate {
     private Long id;
     private String login;
     private String password;
+//    @Temporal(value = TemporalType.DATE)
     @Column(name = "UNLOCKED_DATE")
     private LocalDate unlockedDate = LocalDate.now();
 

@@ -28,8 +28,8 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,  //todo check cascade!!!
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "STATUSES_ID", referencedColumnName = "ID")
     private Status status;
 

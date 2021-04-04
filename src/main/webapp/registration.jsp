@@ -78,8 +78,15 @@
                     <span class="label-input100">Password</span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Password is required">
-                    <input class="input100" type="text" name="name" pattern="[A-Za-zА-Яа-яЁё]{2,40}">
+                <div class="wrap-input100 validate-input" data-validate="name is required">
+                    <input class="input100" type="text" name="name" placeholder="Enter name...">
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Name</span>
+
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="email is required">
+                    <input class="input100" type="text" name="email" placeholder="Enter email...">
                     <span class="focus-input100"></span>
                     <span class="label-input100">Name</span>
 

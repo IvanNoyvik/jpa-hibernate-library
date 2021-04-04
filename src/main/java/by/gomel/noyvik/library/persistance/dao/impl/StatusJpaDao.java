@@ -2,26 +2,46 @@ package by.gomel.noyvik.library.persistance.dao.impl;
 
 
 import by.gomel.noyvik.library.model.Message;
+import by.gomel.noyvik.library.model.Role;
 import by.gomel.noyvik.library.model.Status;
 import by.gomel.noyvik.library.persistance.dao.MessageDao;
 import by.gomel.noyvik.library.persistance.dao.StatusDao;
+
+import javax.persistence.EntityManager;
 
 
 public class StatusJpaDao extends AbstractJpaCrudDao<Status> implements StatusDao {
 
 
-    @Override
-    public Status getOkStatus() {
-        return null;
-    }
+    private final String OK = "OK";
+    private final String LOCKED = "Locked";
+    private final String LIMITED = "Limited";
+
 
     @Override
-    public Status getLimitedStatus() {
-        return null;
+    public Status getOkStatus() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Status status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")
+                .setParameter("status", OK).getSingleResult();
+        entityManager.close();
+        return status;
     }
 
     @Override
     public Status getLockedStatus() {
-        return null;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Status status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")
+                .setParameter("status", LOCKED).getSingleResult();
+        entityManager.close();
+        return status;
+    }
+
+    @Override
+    public Status getLimitedStatus() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Status status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")
+                .setParameter("status", LIMITED).getSingleResult();
+        entityManager.close();
+        return status;
     }
 }

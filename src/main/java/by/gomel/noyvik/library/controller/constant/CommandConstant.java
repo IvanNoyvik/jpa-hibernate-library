@@ -1,5 +1,7 @@
 package by.gomel.noyvik.library.controller.constant;
 
+import java.util.regex.Pattern;
+
 public interface CommandConstant {
 
     String POSTFIX = ".jsp";
@@ -7,6 +9,9 @@ public interface CommandConstant {
 
     String COMMAND_PATH = "by.gomel.noyvik.library.controller.commands.%sCommand";
 
+
+    String LOGIN_PATTERN_REGX = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,40}[a-zA-Z0-9]$";
+    Pattern LOGIN_PATTERN = Pattern.compile(LOGIN_PATTERN_REGX);
     //command
 
     //resp message
@@ -53,6 +58,7 @@ public interface CommandConstant {
     String LOGIN = "login";
     String PASSWORD = "password";
     String NAME = "name";
+    String EMAIL = "email";
 
     String MESSAGES = "messages";
 

@@ -24,12 +24,12 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "BOOKS_ID", referencedColumnName = "ID")
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "USERS_ID", referencedColumnName = "ID")
     private User user;
 
 
