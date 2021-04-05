@@ -34,11 +34,11 @@ public class RegistrationCommand extends FrontCommand {
 
                 if (user != null) {
 
-                    redirectWithResp(REGISTRATION_JSP, "Пользоватоель с такім логіном уже суўествует");
+                    redirectWithResp(MAIN_JSP, REGISTRATION_OK);
 
                 }else {
 
-                    redirectWithResp(MAIN_JSP, REGISTRATION_OK);
+                    redirectWithResp(REGISTRATION_JSP, "Пользоватоель с такім логіном уже суўествует");
 
                 }
             } catch (ServiceException e) {

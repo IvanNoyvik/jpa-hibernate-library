@@ -30,28 +30,21 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 
 
 
-
-
     @Override
     public User save(User user) {
 
-        StatusDao statusDao1 = ProviderDao.getInstance().getStatusDao();
-        System.out.println(PROVIDER_DAO);
-        StatusDao statusDao = PROVIDER_DAO.getStatusDao();
-        RoleDao roleDao = PROVIDER_DAO.getRoleDao();
+        RoleDao roleDao = ProviderDao.getInstance().getRoleDao();
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
+        entityManager.persist(user);
         Role role = roleDao.getUserRole();
-        Status status = statusDao.getOkStatus();
-        user.addStatus(status);
         user.addRole(role);
 
-        entityManager.persist(user);
+        entityManager.merge(user);
 
         entityManager.getTransaction().commit();
-
         return user;
     }
 

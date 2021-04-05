@@ -67,10 +67,10 @@ public class UserServiceImpl extends AbstractCrudService<User> implements UserSe
 
                 Authenticate authenticate = new Authenticate(login, password);
                 User user = new User(name, email);
-
-//                user.addStatus(status);
-//                user.addRole(role);
                 user.addAuthenticate(authenticate);
+
+                Status status = statusDao.getOkStatus();
+                user.addStatus(status);
 
                 return userDao.save(user);
 

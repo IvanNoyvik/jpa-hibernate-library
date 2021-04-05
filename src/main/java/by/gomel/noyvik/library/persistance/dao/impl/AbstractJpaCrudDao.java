@@ -14,7 +14,6 @@ public abstract class AbstractJpaCrudDao<T> implements CrudDao<T> {
 
     protected  final EntityManagerFactory entityManagerFactory = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
 
-    protected final ProviderDao PROVIDER_DAO = ProviderDao.getInstance();
 
     public Class getGenericClass() {
         return (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
