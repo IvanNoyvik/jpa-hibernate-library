@@ -3,7 +3,12 @@ package by.gomel.noyvik.library.persistance.dao.impl;
 
 import by.gomel.noyvik.library.exception.DaoPartException;
 import by.gomel.noyvik.library.model.Book;
+import by.gomel.noyvik.library.model.Role;
+import by.gomel.noyvik.library.model.Status;
 import by.gomel.noyvik.library.model.User;
+import by.gomel.noyvik.library.persistance.connection.ProviderDao;
+import by.gomel.noyvik.library.persistance.dao.RoleDao;
+import by.gomel.noyvik.library.persistance.dao.StatusDao;
 import by.gomel.noyvik.library.persistance.dao.UserDao;
 import org.hibernate.Hibernate;
 
@@ -24,6 +29,31 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 //    }
 
 
+
+
+
+    @Override
+    public User save(User user) {
+
+        StatusDao statusDao1 = ProviderDao.getInstance().getStatusDao();
+        System.out.println(PROVIDER_DAO);
+        StatusDao statusDao = PROVIDER_DAO.getStatusDao();
+        RoleDao roleDao = PROVIDER_DAO.getRoleDao();
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        Role role = roleDao.getUserRole();
+        Status status = statusDao.getOkStatus();
+        user.addStatus(status);
+        user.addRole(role);
+
+        entityManager.persist(user);
+
+        entityManager.getTransaction().commit();
+
+        return user;
+    }
 
     //todo
     @Override
