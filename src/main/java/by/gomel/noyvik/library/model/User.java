@@ -29,7 +29,7 @@ public class User {
 
 
     @ManyToOne(fetch = FetchType.LAZY,  //todo check cascade!!!
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+            cascade = {CascadeType.MERGE/*, CascadeType.PERSIST*/})
     @JoinColumn(name = "STATUSES_ID", referencedColumnName = "ID")
     private Status status;
 

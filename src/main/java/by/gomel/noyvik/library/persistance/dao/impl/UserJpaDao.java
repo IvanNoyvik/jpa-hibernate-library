@@ -23,6 +23,8 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 //        return users;
 //    }
 
+
+
     //todo
     @Override
     public User findByLoginAndPasswordSqlQuery(String login, String password) {
