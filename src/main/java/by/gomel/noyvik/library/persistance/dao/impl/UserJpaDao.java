@@ -50,7 +50,7 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 
     //todo
     @Override
-    public User findByLoginAndPasswordSqlQuery(String login, String password) {
+    public User findByLoginAndPassword(String login, String password) {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         User user;
@@ -72,7 +72,7 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
     }
 
     @Override
-    public User findByLoginSqlQuery(String login) {
+    public User findByLogin(String login) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         User user;
         try {

@@ -29,7 +29,7 @@ public class LoginCommand extends FrontCommand {
             } catch (ServiceException e) {
 
                 redirectWithResp(LOGIN_JSP, LOGIN_FAIL + e.getClass().getSimpleName());
-
+                return;
             }
 
         }

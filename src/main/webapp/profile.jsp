@@ -29,8 +29,9 @@
             <c:if test="${!empty sessionScope.user}">
 
                 <ul>
-                    <li>You login: ${user.login}</li>
-                    <li>You name: ${user.name}</li>
+                    <li>You login: ${sessionScope.user.authenticate.login}</li>
+                    <li>You name: ${sessionScope.user.name}</li>
+                    <li>You email: ${sessionScope.user.email}</li>
                 </ul>
                 <a href="<c:url value="/editUser.jsp" />" style="margin-left: 50px;">Edit profile...</a>
             </c:if>
@@ -43,7 +44,7 @@
         <div id="templatemo_content_left">
 
             <div class="templatemo_content_left_section">
-                <c:if test="${sessionScope.user.role.role eq 'Administrator'}">
+                <c:if test="${sessionScope.user.roles.contains('Administrator')}">
                     <form action="<c:url value="/front"/>" method="get">
                         <input type="hidden" name="command" value="Forward"/>
                         <input type="hidden" name="forward" value="admin"/>
@@ -65,7 +66,7 @@
                     <div class="templatemo_product_box">
 
 
-                        <h1>${order.book.title} </h1>
+                        <h1>${order.book.title} (${order.book.author.author}) </h1>
 
                         <c:url value="/front" var="image">
                             <c:param name="bookId" value="${order.book.id}"/>
@@ -78,7 +79,7 @@
                         <div class="product_info">
                             <p>${order.book.description}</p>
 
-                            <c:if test="${applicationScope.now.now() >= order.date.plusDays(order.duration)}">
+                            <c:if test="${applicationScope.now.now() >= order.dateReceiving.plusDays(order.duration)}">
                                 <h3>Book is expired
                                     return the book to the library</h3>
 
@@ -86,9 +87,9 @@
                                         href="<c:url value="/front?command=ReturnOrder&id=${order.id}"/>">Return</a>
                                 </div>
                             </c:if>
-                            <c:if test="${applicationScope.now.now() < order.date.plusDays(order.duration)}">
-                                <h3> Expected return date: ${order.date.plusDays(order.duration)} </h3>
-                                <h3>${order.date.plusDays(order.duration).toEpochDay() - applicationScope.now.now().toEpochDay()}
+                            <c:if test="${applicationScope.now.now() < order.dateReceiving.plusDays(order.duration)}">
+                                <h3> Expected return date: ${order.dateReceiving.plusDays(order.duration)} </h3>
+                                <h3>${order.dateReceiving.plusDays(order.duration).toEpochDay() - applicationScope.now.now().toEpochDay()}
                                     days
                                     left </h3>
 

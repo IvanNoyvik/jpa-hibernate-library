@@ -3,7 +3,10 @@ package by.gomel.noyvik.library.controller.constant;
 
 
 import by.gomel.noyvik.library.model.Book;
+import by.gomel.noyvik.library.model.Order;
+import by.gomel.noyvik.library.model.User;
 import by.gomel.noyvik.library.service.BookService;
+import by.gomel.noyvik.library.service.OrderService;
 import by.gomel.noyvik.library.service.impl.BookServiceImpl;
 import by.gomel.noyvik.library.service.provider.ProviderService;
 
@@ -33,16 +36,16 @@ public class SetAttribute {
             List<Book> books = bookService.findAll();
             request.setAttribute(BOOKS, books);
         }
-//
-//        if (target.equalsIgnoreCase(PROFILE_JSP)) {
-//
-//            OrderJdbcDao orderDao = OrderJdbcDao.getInstance();
-//            User user = (User) request.getSession().getAttribute(USER);
-//            long userId = user.getId();
-//            List<Order> orders = orderDao.findByUserId(userId);
-//            request.setAttribute(ORDERS, orders);
-//
-//        }
+
+        if (target.equalsIgnoreCase(PROFILE_JSP)) {
+
+            OrderService orderService = PROVIDER_SERVICE.getOrderService();
+            User user = (User) request.getSession().getAttribute(USER);
+            Long userId = user.getId();
+            List<Order> orders = orderService.findByUserId(userId);
+            request.setAttribute(ORDERS, orders);
+
+        }
 //
 //        if (target.equalsIgnoreCase(BOOK_JSP)) {
 //

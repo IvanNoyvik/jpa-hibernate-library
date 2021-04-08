@@ -1,8 +1,10 @@
 package by.gomel.noyvik.library.service.provider;
 
 import by.gomel.noyvik.library.service.BookService;
+import by.gomel.noyvik.library.service.OrderService;
 import by.gomel.noyvik.library.service.UserService;
 import by.gomel.noyvik.library.service.impl.BookServiceImpl;
+import by.gomel.noyvik.library.service.impl.OrderServiceImpl;
 import by.gomel.noyvik.library.service.impl.UserServiceImpl;
 
 public final class ProviderService {
@@ -11,6 +13,7 @@ public final class ProviderService {
 
     private final BookService bookService = new BookServiceImpl();
     private final UserService userService = new UserServiceImpl();
+    private final OrderService orderService = new OrderServiceImpl();
 
 
 
@@ -27,5 +30,9 @@ public final class ProviderService {
 
     public UserService getUserService() {
         return userService;
+    }
+
+    public OrderService getOrderService() {
+        return orderService;
     }
 }
