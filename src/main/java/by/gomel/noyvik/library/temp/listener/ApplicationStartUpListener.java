@@ -1,5 +1,7 @@
 package by.gomel.noyvik.library.temp.listener;
 
+import by.gomel.noyvik.library.persistance.dao.RoleDao;
+import by.gomel.noyvik.library.persistance.dao.impl.RoleJpaDao;
 import by.gomel.noyvik.library.temp.CurrentDate;
 import org.h2.tools.Server;
 
@@ -38,7 +40,11 @@ public class ApplicationStartUpListener implements ServletContextListener {
 //            throw new RuntimeException("Error initialization in-memory database: " + e.getMessage());
 //        }
 
+        RoleDao roleDao = new RoleJpaDao();  // todo
+
+
         sce.getServletContext().setAttribute("now", new CurrentDate());
+        sce.getServletContext().setAttribute("admin", roleDao.getAdminRole());
 
     }
 

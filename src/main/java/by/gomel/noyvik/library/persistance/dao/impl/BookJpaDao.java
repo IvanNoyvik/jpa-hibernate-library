@@ -15,6 +15,16 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
 
 
     @Override
+    public Book findById(Long id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Book book = entityManager.createQuery(
+                "SELECT b from Book b join fetch b.author join fetch b.genres where b.id = :id", Book.class)
+                .setParameter("id", id).getSingleResult();
+        entityManager.close();
+        return book;
+    }
+
+    @Override
     public List<Book> findAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Book> books = entityManager.createQuery("SELECT b from Book b join fetch b.author").getResultList();

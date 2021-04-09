@@ -64,15 +64,15 @@
         <div id="admin_content_left">
             <div class="admin_content_left_section">
                 <h1>Overdue orders</h1>
-                <c:if test="${!empty requestScope.orders && sessionScope.user.role.role.equalsIgnoreCase('Administrator')}">
+                <c:if test="${!empty requestScope.orders && sessionScope.user.roles.contains(applicationScope.admin)}">
                     <c:forEach items="${requestScope.orders}" var="order">
 
                         <div class="admin_product_box">
 
-                            <span style="font-size:13px; font-style: italic">-- ${order.user.login} (${order.user.name})</span>
+                            <span style="font-size:13px; font-style: italic">-- ${order.user.authenticate.login} (${order.user.name})</span>
 
                             Overdue the book <span style="font-style: italic">(${order.book.title})</span> by
-                                ${applicationScope.now.now().toEpochDay() - order.date.plusDays(order.duration).toEpochDay()}
+                                ${applicationScope.now.now().toEpochDay() - order.dateReceiving.plusDays(order.duration).toEpochDay()}
                             days
 
                             <div class="product_info">
@@ -157,7 +157,7 @@
                         <c:if test="${userMap.key.status.status.equalsIgnoreCase('Locked')
                         and userMap.key.id ne sessionScope.user.id}">
                             <tr>
-                                <td><h3>${userMap.key.login}</h3></td>
+                                <td><h3>${userMap.key.authenticate.login}</h3></td>
                                 <td class="table-text-center"><h3>${userMap.key.status.status}</h3></td>
                                 <td class="table-text-center"><h3>${userMap.value}</h3></td>
                                 <td class="table-text-center">
@@ -201,7 +201,7 @@
                         <c:if test="${userMap.key.status.status.equalsIgnoreCase('Limited')
                         and userMap.key.id ne sessionScope.user.id}">
                             <tr>
-                                <td><h3>${userMap.key.login}</h3></td>
+                                <td><h3>${userMap.key.authenticate.login}</h3></td>
                                 <td class="table-text-center"><h3>${userMap.key.status.status}</h3></td>
                                 <td class="table-text-center"><h3>${userMap.value}</h3></td>
                                 <td class="table-text-center">
@@ -240,7 +240,7 @@
                         <c:if test="${userMap.key.status.status.equalsIgnoreCase('OK')
                         and userMap.key.id ne sessionScope.user.id}">
                             <tr>
-                                <td><h3>${userMap.key.login}</h3></td>
+                                <td><h3>${userMap.key.authenticate.login}</h3></td>
                                 <td class="table-text-center"><h3>${userMap.key.status.status}</h3></td>
                                 <td class="table-text-center"><h3>${userMap.value}</h3></td>
                                 <td class="table-text-center">

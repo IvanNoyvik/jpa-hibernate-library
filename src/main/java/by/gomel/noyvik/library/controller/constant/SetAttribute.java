@@ -7,6 +7,7 @@ import by.gomel.noyvik.library.model.Order;
 import by.gomel.noyvik.library.model.User;
 import by.gomel.noyvik.library.service.BookService;
 import by.gomel.noyvik.library.service.OrderService;
+import by.gomel.noyvik.library.service.UserService;
 import by.gomel.noyvik.library.service.impl.BookServiceImpl;
 import by.gomel.noyvik.library.service.provider.ProviderService;
 
@@ -46,36 +47,37 @@ public class SetAttribute {
             request.setAttribute(ORDERS, orders);
 
         }
-//
-//        if (target.equalsIgnoreCase(BOOK_JSP)) {
-//
-//            BookJdbcDao bookDao = BookJdbcDao.getInstance();
-//            long bookId = Long.parseLong(request.getParameter("bookId"));
-//            Book book = bookDao.findById(bookId);
-//            request.setAttribute(BOOK, book);
-//
-//            OrderJdbcDao orderDao = OrderJdbcDao.getInstance();
-//            List<Order> orders = orderDao.findByBookId(bookId);
-//            request.setAttribute(ORDERS, orders);
-//
-//            User user = (User) request.getSession().getAttribute(USER);
-//
-//            if (user != null){
-//                boolean haveBook = orderDao.findByBookAndUserId(bookId, user.getId());
-//                request.setAttribute(HAVE_BOOK, haveBook);
-//            }
-//
-//
-//        }
-//
-//        if (target.equalsIgnoreCase(BOOK_CONTENT_JSP)) {
-//
-//            BookJdbcDao bookDao = BookJdbcDao.getInstance();
-//            long bookId = Long.parseLong(request.getParameter("bookId"));
-//            Book book = bookDao.findById(bookId);
-//            request.setAttribute(BOOK, book);
-//
-//        }
+
+        if (target.equalsIgnoreCase(BOOK_JSP)) {
+
+            BookService bookService = PROVIDER_SERVICE.getBookService();
+            OrderService orderService = PROVIDER_SERVICE.getOrderService();
+
+            long bookId = Long.parseLong(request.getParameter("bookId"));
+            Book book = bookService.findById(bookId);
+            request.setAttribute(BOOK, book);
+
+            List<Order> orders = orderService.findByBookId(bookId);
+            request.setAttribute(ORDERS, orders);
+
+            User user = (User) request.getSession().getAttribute(USER);
+
+            if (user != null){
+                boolean haveBook = orderService.findByBookAndUserId(bookId, user.getId());
+                request.setAttribute(HAVE_BOOK, haveBook);
+            }
+
+
+        }
+
+        if (target.equalsIgnoreCase(BOOK_CONTENT_JSP)) {
+
+            BookService bookService = PROVIDER_SERVICE.getBookService();
+            long bookId = Long.parseLong(request.getParameter("bookId"));
+            Book book = bookService.findById(bookId);
+            request.setAttribute(BOOK, book);
+
+        }
 //
 //        if (target.equalsIgnoreCase(EDIT_BOOK_JSP)) {
 //
@@ -103,12 +105,14 @@ public class SetAttribute {
 //
 //        }
 //
-//        if (target.equalsIgnoreCase(ADMIN_JSP)) {
-//
-//            OrderJdbcDao orderDao = OrderJdbcDao.getInstance();
-//            List<Order> orders = orderDao.findAllOverdueOrder();
-//            request.setAttribute(ORDERS, orders);
-//
+        if (target.equalsIgnoreCase(ADMIN_JSP)) {
+
+            UserService userService = PROVIDER_SERVICE.getUserService();
+            OrderService orderService = PROVIDER_SERVICE.getOrderService();
+
+            List<Order> orders = orderService.findAllOverdueOrder();
+            request.setAttribute(ORDERS, orders);
+
 //            UserJdbcDao userDao = UserJdbcDao.getInstance();
 //            List<User> users = userDao.findAll();
 //            Map<User, Integer> userWithCountOverdueOrder= new HashMap<>();
@@ -121,7 +125,7 @@ public class SetAttribute {
 //            MessageJdbcDao messageDao = MessageJdbcDao.getInstance();
 //            List<Message> messages = messageDao.findAll();
 //            request.setAttribute(MESSAGES, messages);
-//
-//        }
+
+        }
     }
 }

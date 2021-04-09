@@ -44,7 +44,7 @@
         <div id="templatemo_content_left">
 
             <div class="templatemo_content_left_section">
-                <c:if test="${sessionScope.user.roles.contains('Administrator')}">
+                <c:if test="${sessionScope.user.roles.contains(applicationScope.admin)}">
                     <form action="<c:url value="/front"/>" method="get">
                         <input type="hidden" name="command" value="Forward"/>
                         <input type="hidden" name="forward" value="admin"/>

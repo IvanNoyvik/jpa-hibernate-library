@@ -26,7 +26,7 @@
         </div>
 
         <div id="templatemo_new_books">
-            <c:if test="${sessionScope.user.role.role eq 'Administrator'}">
+            <c:if test="${sessionScope.user.roles.contains(applicationScope.admin)}">
                 <form action="<c:url value="/front"/>" method="post">
                     <input type="hidden" name="command" value="Forward"/>
                     <input type="hidden" name="forward" value="editBook"/>
@@ -42,7 +42,7 @@
 
         <div id="templatemo_content_left">
             <div class="templatemo_content_left_section">
-                <c:if test="${!empty requestScope.orders && sessionScope.user.role.role.equalsIgnoreCase('Administrator')}">
+                <c:if test="${!empty requestScope.orders && sessionScope.user.roles.contains(applicationScope.admin)}">
                     <h1>Users read this book</h1>
                     <table>
                         <tr>
@@ -52,10 +52,10 @@
                         <c:forEach items="${requestScope.orders}" var="order">
                             <tr>
                                 <td>
-                                        ${order.user.login}
+                                        ${order.user.authenticate.login}
                                 </td>
                                 <td>
-                                        ${order.date.plusDays(order.duration)}
+                                        ${order.dateReceiving.plusDays(order.duration)}
                                 </td>
                             </tr>
                         </c:forEach>
@@ -76,7 +76,8 @@
             <div id="templatemo_content_right">
 
                 <h1>${requestScope.book.title} <span>(${requestScope.book.author.author})</span></h1>
-                <h2>Genre: <span>(${requestScope.book.genre.genre})</span></h2>
+                <h2>Genre: <span>(/<c:forEach items="${requestScope.book.genres}" var="genre">${genre.genre}/</c:forEach>)
+                        </span></h2>
 
                 <c:url value="/front" var="image">
                     <c:param name="bookId" value="${requestScope.book.id}"/>
@@ -96,7 +97,7 @@
 
                         <h3>${requestScope.book.quantity} pcs in stock</h3>
 
-                        <c:if test="${!empty sessionScope.user and (sessionScope.user.status.status eq 'OK')}">
+                        <c:if test="${!empty sessionScope.user and (sessionScope.user.status.status eq 'OK') and !requestScope.haveBook}">
                             <form accept-charset="UTF-8" action="<c:url value="/front"/>" method="post">
                                 <label>Duration
                                     <input class="duration-main" name="days" type="text"
