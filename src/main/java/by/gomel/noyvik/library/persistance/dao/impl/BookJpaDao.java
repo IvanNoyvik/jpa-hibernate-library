@@ -1,9 +1,7 @@
 package by.gomel.noyvik.library.persistance.dao.impl;
 
 
-import by.gomel.noyvik.library.model.Authenticate;
 import by.gomel.noyvik.library.model.Book;
-import by.gomel.noyvik.library.persistance.dao.AuthenticateDao;
 import by.gomel.noyvik.library.persistance.dao.BookDao;
 
 import javax.persistence.EntityManager;
@@ -27,7 +25,7 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
     @Override
     public List<Book> findAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<Book> books = entityManager.createQuery("SELECT b from Book b join fetch b.author").getResultList();
+        List<Book> books = entityManager.createQuery("SELECT b from Book b join fetch b.author", Book.class).getResultList();
         entityManager.close();
         return books;
     }

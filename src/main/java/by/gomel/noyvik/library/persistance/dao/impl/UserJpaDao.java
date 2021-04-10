@@ -56,7 +56,7 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
         User user;
         try {
             user = (User) entityManager.createQuery("SELECT u from User u join fetch u.authenticate a " +
-                    "join fetch u.orders join fetch u.roles join fetch u.status " +
+                    "left join fetch u.orders join fetch u.roles join fetch u.status " +
                     "where a.login = :login and a.password = :password")
                     .setParameter("login", login).setParameter("password", password).getSingleResult();
         } catch (NoResultException e) {
