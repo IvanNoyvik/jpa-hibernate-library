@@ -113,15 +113,10 @@ public class SetAttribute {
             List<Order> orders = orderService.findAllOverdueOrder();
             request.setAttribute(ORDERS, orders);
 
-//            UserJdbcDao userDao = UserJdbcDao.getInstance();
-//            List<User> users = userDao.findAll();
-//            Map<User, Integer> userWithCountOverdueOrder= new HashMap<>();
-//            for (User user: users) {
-//                int countOverdueOrder = orderDao.findNumberOfOverdueOrdersByUserId(user.getId());
-//                userWithCountOverdueOrder.put(user, countOverdueOrder);
-//            }
-//            request.setAttribute(USERS, userWithCountOverdueOrder);
-//
+
+            Map<User, Integer> userWithCountOverdueOrder = userService.findUserWithCountOverdueOrder();
+            request.setAttribute(USERS, userWithCountOverdueOrder);
+
 //            MessageJdbcDao messageDao = MessageJdbcDao.getInstance();
 //            List<Message> messages = messageDao.findAll();
 //            request.setAttribute(MESSAGES, messages);

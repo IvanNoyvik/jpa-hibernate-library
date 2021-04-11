@@ -9,9 +9,11 @@ import by.gomel.noyvik.library.service.BookService;
 import by.gomel.noyvik.library.service.OrderService;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderServiceImpl extends AbstractCrudService<Order> implements OrderService {
 
@@ -29,7 +31,14 @@ public class OrderServiceImpl extends AbstractCrudService<Order> implements Orde
 
     @Override
     public List<Order> findAllOverdueOrder() {
-        return orderDao.findAllOverdueOrder();
+
+        List<Order> orders = orderDao.findAll();
+
+        List<Order> overdueOrders = orders.stream()
+                .filter(o -> o.getDateReceiving().plusDays(o.getDuration()).isBefore(LocalDate.now()))
+                .collect(Collectors.toList());
+
+        return overdueOrders;
     }
 
     @Override

@@ -1,10 +1,7 @@
 package by.gomel.noyvik.library.persistance.dao.impl;
 
 
-import by.gomel.noyvik.library.model.Message;
-import by.gomel.noyvik.library.model.Role;
 import by.gomel.noyvik.library.model.Status;
-import by.gomel.noyvik.library.persistance.dao.MessageDao;
 import by.gomel.noyvik.library.persistance.dao.StatusDao;
 
 import javax.persistence.EntityManager;

@@ -18,15 +18,18 @@ import java.util.List;
 
 public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 
-//    @Override
-//    public List<User> findAll() {
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        List<User> users = entityManager.createQuery("from User", User.class).getResultList();
-//        users.forEach(user -> user.getRoles().forEach(Hibernate::initialize));
-//        entityManager.close();
-//
-//        return users;
-//    }
+    @Override
+    public List<User> findAll() {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        List<User> users = entityManager.createQuery("SELECT u from User u left join fetch u.status " +
+                "left join fetch u.authenticate order by u.status.id desc", User.class).getResultList();
+
+        entityManager.close();
+
+        return users;
+    }
 
 
 
@@ -48,15 +51,14 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
         return user;
     }
 
-    //todo problem with login new user
     @Override
     public User findByLoginAndPassword(String login, String password) {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         User user;
         try {
-            user = (User) entityManager.createQuery("SELECT u from User u join fetch u.authenticate a " +
-                    "left join fetch u.orders join fetch u.roles join fetch u.status " +
+            user = (User) entityManager.createQuery("SELECT u from User u left join fetch u.authenticate a " +
+                    "left join fetch u.orders left join fetch u.roles left join fetch u.status " +
                     "where a.login = :login and a.password = :password")
                     .setParameter("login", login).setParameter("password", password).getSingleResult();
         } catch (NoResultException e) {

@@ -58,19 +58,35 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
         return orders;
     }
 
+//    @Override
+//    public List<Order> findAllOverdueOrder() {
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        List<Order> orders;
+//        try {
+//            orders = entityManager.createNativeQuery("SELECT ID, DATE_RECEIVING, DURATION, BOOKS_ID, USERS_ID FROM ORDERS " +
+//                    "WHERE DATEADD('DAY', DURATION, DATE_RECEIVING) < CURRENT_TIMESTAMP()", Order.class).getResultList();
+//            for (Order order: orders) {
+//                Hibernate.initialize(order.getBook());
+//                Hibernate.initialize(order.getUser().getStatus()); //todo init + check status(null?)
+//            }
+//        } catch (NoResultException e) {
+//            return null;
+//        } catch (Exception e) {
+//            throw new DaoPartException(e.getMessage(), e);
+//        } finally {
+//            entityManager.close();
+//        }
+//
+//        return orders;
+//    }
+
     @Override
-    public List<Order> findAllOverdueOrder() {
+    public List<Order> findAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Order> orders;
         try {
-            orders = entityManager.createNativeQuery("SELECT ID, DATE_RECEIVING, DURATION, BOOKS_ID, USERS_ID FROM ORDERS " +
-                    "WHERE DATEADD('DAY', DURATION, DATE_RECEIVING) < CURRENT_TIMESTAMP()", Order.class).getResultList();
-            for (Order order: orders) {
-                Hibernate.initialize(order.getBook());
-                Hibernate.initialize(order.getUser().getStatus()); //todo init + check status(null?)
-
-            }
-
+            orders = entityManager.createQuery("SELECT o FROM Order o left join fetch o.book " +
+                    "left join fetch o.user u left join fetch u.status", Order.class).getResultList();
 
         } catch (NoResultException e) {
             return null;
@@ -84,15 +100,7 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
     }
 
 
-    //        entityManager.getTransaction().begin();
-//        entityManager.createNativeQuery("INSERT INTO USERS (NAME, EMAIL) VALUES (?1, ?2)")
-//                .setParameter(1, newUser.getName()).setParameter(2, newUser.getEmail())
-//                .executeUpdate();
-//        NewUser user = entityManager.createQuery("from NewUser order by id desc", NewUser.class).setMaxResults(1).getSingleResult();
-//
-//        entityManager.getTransaction().commit();
-//
-//        entityManager.close();
+
     @Override
     public boolean findByBookAndUserId(Long bookId, Long userId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -112,6 +120,23 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
 
     @Override
     public int findNumberOfOverdueOrdersByUserId(Long userId) {
-        return 0;
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        List<Order> orders;
+//        try {
+//            orders = entityManager.createNativeQuery("SELECT ID FROM ORDERS " +
+//                    "WHERE DATEADD('DAY', DURATION, DATE_RECEIVING) < CURRENT_TIMESTAMP() " +
+//                    "AND USERS_ID = :userId", Order.class).setParameter("userId", userId).getResultList();
+//
+//        } catch (NoResultException e) {
+//            return 0;
+//        } catch (Exception e) {
+//            throw new DaoPartException(e.getMessage(), e);
+//        } finally {
+//            entityManager.close();
+//        }
+
+//        return orders.size();
+        return 1; //todo
+
     }
 }
