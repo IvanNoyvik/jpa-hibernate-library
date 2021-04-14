@@ -1,23 +1,19 @@
 package by.gomel.noyvik.library.service.impl;
 
-import by.gomel.noyvik.library.model.Author;
-import by.gomel.noyvik.library.model.Book;
-import by.gomel.noyvik.library.model.Genre;
+import by.gomel.noyvik.library.exception.DaoPartException;
+import by.gomel.noyvik.library.exception.ServiceException;
 import by.gomel.noyvik.library.model.Order;
 import by.gomel.noyvik.library.persistance.dao.OrderDao;
-import by.gomel.noyvik.library.service.BookService;
 import by.gomel.noyvik.library.service.OrderService;
 
-import java.io.InputStream;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class OrderServiceImpl extends AbstractCrudService<Order> implements OrderService {
 
     private final OrderDao orderDao = PROVIDER_DAO.getOrderDao();
+
 
     @Override
     public List<Order> findByBookId(Long id) {
@@ -45,12 +41,6 @@ public class OrderServiceImpl extends AbstractCrudService<Order> implements Orde
     public boolean findByBookAndUserId(Long bookId, Long userId) {
         return orderDao.findByBookAndUserId(bookId, userId);
     }
-
-    @Override
-    public int findNumberOfOverdueOrdersByUserId(Long userId) {
-        return orderDao.findNumberOfOverdueOrdersByUserId(userId);
-    }
-
 
 
 }

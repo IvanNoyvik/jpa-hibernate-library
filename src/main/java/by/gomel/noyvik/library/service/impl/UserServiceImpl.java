@@ -3,6 +3,7 @@ package by.gomel.noyvik.library.service.impl;
 import by.gomel.noyvik.library.exception.DaoPartException;
 import by.gomel.noyvik.library.exception.ServiceException;
 import by.gomel.noyvik.library.model.Authenticate;
+import by.gomel.noyvik.library.model.Order;
 import by.gomel.noyvik.library.model.Status;
 import by.gomel.noyvik.library.model.User;
 import by.gomel.noyvik.library.persistance.dao.OrderDao;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
 
@@ -93,9 +95,20 @@ public class UserServiceImpl extends AbstractCrudService<User> implements UserSe
         List<User> users = userDao.findAll();
         Map<User, Integer> userWithCountOverdueOrder = new LinkedHashMap<>();
         for (User user: users) {
-            int countOverdueOrder = orderDao.findNumberOfOverdueOrdersByUserId(user.getId());
+            Integer countOverdueOrder = getCountOverdueOrder(orderDao.findAllOrdersByUserId(user.getId()));
             userWithCountOverdueOrder.put(user, countOverdueOrder);
         }
         return userWithCountOverdueOrder;
     }
+
+    private int getCountOverdueOrder(List<Order> orders){
+
+        return (int)orders.stream().
+                filter(o -> o.getDateReceiving().plusDays(o.getDuration()).isBefore(LocalDate.now()))
+                .count();
+
+    }
+
+
+
 }

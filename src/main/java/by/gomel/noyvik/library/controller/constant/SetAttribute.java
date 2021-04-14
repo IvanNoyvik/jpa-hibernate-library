@@ -3,21 +3,21 @@ package by.gomel.noyvik.library.controller.constant;
 
 
 import by.gomel.noyvik.library.model.Book;
+import by.gomel.noyvik.library.model.Message;
 import by.gomel.noyvik.library.model.Order;
 import by.gomel.noyvik.library.model.User;
 import by.gomel.noyvik.library.service.BookService;
+import by.gomel.noyvik.library.service.MessageService;
 import by.gomel.noyvik.library.service.OrderService;
 import by.gomel.noyvik.library.service.UserService;
 import by.gomel.noyvik.library.service.impl.BookServiceImpl;
 import by.gomel.noyvik.library.service.provider.ProviderService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
-import static by.gomel.noyvik.library.controller.constant.CommandConstant.MESSAGES;
 
 public class SetAttribute {
 
@@ -36,7 +36,7 @@ public class SetAttribute {
             BookService bookService = PROVIDER_SERVICE.getBookService();
             List<Book> books = bookService.findAll();
             request.setAttribute(BOOKS, books);
-        }
+        } else
 
         if (target.equalsIgnoreCase(PROFILE_JSP)) {
 
@@ -46,7 +46,7 @@ public class SetAttribute {
             List<Order> orders = orderService.findByUserId(userId);
             request.setAttribute(ORDERS, orders);
 
-        }
+        } else
 
         if (target.equalsIgnoreCase(BOOK_JSP)) {
 
@@ -68,7 +68,7 @@ public class SetAttribute {
             }
 
 
-        }
+        } else
 
         if (target.equalsIgnoreCase(BOOK_CONTENT_JSP)) {
 
@@ -77,7 +77,7 @@ public class SetAttribute {
             Book book = bookService.findById(bookId);
             request.setAttribute(BOOK, book);
 
-        }
+        }else
 //
 //        if (target.equalsIgnoreCase(EDIT_BOOK_JSP)) {
 //
@@ -109,6 +109,7 @@ public class SetAttribute {
 
             UserService userService = PROVIDER_SERVICE.getUserService();
             OrderService orderService = PROVIDER_SERVICE.getOrderService();
+            MessageService messageService = PROVIDER_SERVICE.getMessageService();
 
             List<Order> orders = orderService.findAllOverdueOrder();
             request.setAttribute(ORDERS, orders);
@@ -117,9 +118,8 @@ public class SetAttribute {
             Map<User, Integer> userWithCountOverdueOrder = userService.findUserWithCountOverdueOrder();
             request.setAttribute(USERS, userWithCountOverdueOrder);
 
-//            MessageJdbcDao messageDao = MessageJdbcDao.getInstance();
-//            List<Message> messages = messageDao.findAll();
-//            request.setAttribute(MESSAGES, messages);
+            List<Message> messages = messageService.findAll();
+            request.setAttribute(MESSAGES, messages);
 
         }
     }

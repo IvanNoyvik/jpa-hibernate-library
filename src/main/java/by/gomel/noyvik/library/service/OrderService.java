@@ -15,8 +15,5 @@ public interface OrderService extends CrudService<Order> {
 
     boolean findByBookAndUserId(Long bookId, Long userId);
 
-    int findNumberOfOverdueOrdersByUserId(Long userId);
-
-
 
 }

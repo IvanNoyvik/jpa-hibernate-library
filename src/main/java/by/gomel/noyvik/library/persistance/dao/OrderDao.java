@@ -14,6 +14,6 @@ public interface OrderDao extends CrudDao<Order> {
 
     boolean findByBookAndUserId(Long bookId, Long userId);
 
-    int findNumberOfOverdueOrdersByUserId(Long userId);
+    List<Order> findAllOrdersByUserId(Long userId);
 
 }

@@ -23,8 +23,15 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "USERS_ID", referencedColumnName = "ID")
     private User user;
+
+
+    public Message(LocalDate dateSent, String content, User user) {
+        this.dateSent = dateSent;
+        this.content = content;
+        this.addUser(user);
+    }
 
     public void addUser(User user) {
         user.getMessages().add(this);

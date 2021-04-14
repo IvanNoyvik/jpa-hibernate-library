@@ -11,7 +11,7 @@ public abstract class AbstractCrudService<T> implements CrudService<T> {
 
     protected final ProviderDao PROVIDER_DAO = ProviderDao.getInstance();
 
-    public Class<T> getGenericClass() {
+    public Class<?> getGenericClass() {
 
         return (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
