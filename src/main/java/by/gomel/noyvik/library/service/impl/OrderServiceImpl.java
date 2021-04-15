@@ -53,7 +53,13 @@ public class OrderServiceImpl extends AbstractCrudService<Order> implements Orde
 
         if (book.getQuantity() > 0 && !userHaveBook(bookID, user.getId())){
             Order order = new Order(LocalDate.now(), duration, book, user);
-            return orderDao.save(order);
+
+            Order newOrder = orderDao.save(order);
+
+            book.setQuantity(book.getQuantity() - 1);
+            bookDao.update(book);
+
+            return newOrder;
 
         } else {
 

@@ -25,11 +25,11 @@ public class Book {
     private byte[] image;
     private int quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
+    @ManyToOne(fetch = FetchType.LAZY/*, cascade = {CascadeType.MERGE, CascadeType.PERSIST} */)
     @JoinColumn(name = "AUTHORS_ID", referencedColumnName = "ID")
     private Author author;
 
-    @ManyToMany(mappedBy = "books", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "books", cascade = {CascadeType.PERSIST, CascadeType.MERGE})//todo cascade
     private Set<Genre> genres;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,

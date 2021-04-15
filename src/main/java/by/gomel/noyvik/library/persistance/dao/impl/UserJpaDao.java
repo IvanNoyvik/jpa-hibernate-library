@@ -19,6 +19,19 @@ import java.util.List;
 public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 
     @Override
+    public void deleteById(Long id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        User user = entityManager.find(User.class, id);
+        entityManager.getTransaction().begin();
+
+        entityManager.remove(user);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return;
+    }
+
+    @Override
     public List<User> findAll() {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -30,7 +43,6 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 
         return users;
     }
-
 
 
     @Override
