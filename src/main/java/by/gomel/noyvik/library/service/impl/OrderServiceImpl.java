@@ -2,7 +2,10 @@ package by.gomel.noyvik.library.service.impl;
 
 import by.gomel.noyvik.library.exception.DaoPartException;
 import by.gomel.noyvik.library.exception.ServiceException;
+import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.model.Order;
+import by.gomel.noyvik.library.model.User;
+import by.gomel.noyvik.library.persistance.dao.BookDao;
 import by.gomel.noyvik.library.persistance.dao.OrderDao;
 import by.gomel.noyvik.library.service.OrderService;
 
@@ -13,6 +16,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl extends AbstractCrudService<Order> implements OrderService {
 
     private final OrderDao orderDao = PROVIDER_DAO.getOrderDao();
+    private final BookDao bookDao  = PROVIDER_DAO.getBookDao();
 
 
     @Override
@@ -38,8 +42,24 @@ public class OrderServiceImpl extends AbstractCrudService<Order> implements Orde
     }
 
     @Override
-    public boolean findByBookAndUserId(Long bookId, Long userId) {
+    public boolean userHaveBook(Long bookId, Long userId) {
         return orderDao.findByBookAndUserId(bookId, userId);
+    }
+
+    @Override
+    public Order addOrder(User user, Long bookID, int duration) {
+
+        Book book = bookDao.findById(bookID);
+
+        if (book.getQuantity() > 0 && !userHaveBook(bookID, user.getId())){
+            Order order = new Order(LocalDate.now(), duration, book, user);
+            return orderDao.save(order);
+
+        } else {
+
+            throw new ServiceException();
+
+        }
     }
 
 

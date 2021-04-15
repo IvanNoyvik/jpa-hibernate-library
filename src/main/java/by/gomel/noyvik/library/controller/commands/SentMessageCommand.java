@@ -22,7 +22,7 @@ public class SentMessageCommand extends FrontCommand {
         String context = request.getParameter(CONTEXT);
         User user = (User) request.getSession().getAttribute(USER);
 
-        if (user != null){
+        if (user != null && !context.isEmpty() && context.length() < 255){
 
             try {
 

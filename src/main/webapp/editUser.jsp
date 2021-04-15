@@ -52,10 +52,17 @@
                 <input type="hidden" value="EditUser" name="command">
 
 
-                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                <div class="wrap-input100 validate-input" data-validate="Name is required">
                     <input class="input100" type="text" name="name">
                     <span class="focus-input100"></span>
                     <span class="label-input100">New name</span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                    <input class="input100" type="text" name="email" >
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">New email</span>
+
                 </div>
 
                 <div class="container-login100-form-btn">

@@ -22,13 +22,13 @@ public class Order {
     private LocalDate dateReceiving;
     private int duration;
 
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY
+            /*,cascade = {CascadeType.PERSIST, CascadeType.MERGE}*/)
     @JoinColumn(name = "BOOKS_ID", referencedColumnName = "ID")
     private Book book;
 
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY
+            /*,cascade = {CascadeType.PERSIST, CascadeType.MERGE}*/)
     @JoinColumn(name = "USERS_ID", referencedColumnName = "ID")
     private User user;
 

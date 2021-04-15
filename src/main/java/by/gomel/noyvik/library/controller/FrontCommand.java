@@ -17,6 +17,7 @@ public abstract class FrontCommand {
     protected ServletContext context;
     protected HttpServletRequest request;
     protected HttpServletResponse response;
+
     protected final ProviderService PROVIDER_SERVICE = ProviderService.getInstance();
 
 

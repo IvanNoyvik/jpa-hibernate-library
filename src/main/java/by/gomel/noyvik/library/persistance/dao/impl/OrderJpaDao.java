@@ -121,8 +121,8 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
     public boolean findByBookAndUserId(Long bookId, Long userId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            entityManager.createQuery("SELECT o from Order o join fetch o.book b " +
-                    "join fetch o.user u where u.id = :userId and b.id = :bookId", Order.class)
+            entityManager.createQuery("SELECT o from Order o left join fetch o.book b " +
+                    "left join fetch o.user u where u.id = :userId and b.id = :bookId", Order.class)
                     .setParameter("userId", userId).setParameter("bookId", bookId).getSingleResult();
         } catch (NoResultException e) {
             return false;

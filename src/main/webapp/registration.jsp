@@ -62,15 +62,11 @@
 					</span>
                 <input type="hidden" value="Registration" name="command">
 
-
-                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                <div class="wrap-input100 validate-input" data-validate="Login is required">
                     <input class="input100" type="text" name="login" pattern="[A-Za-zА-Яа-яЁё0-9]{3,20}">
                     <span class="focus-input100"></span>
                     <span class="label-input100">Login</span>
-
-
                 </div>
-
 
                 <div class="wrap-input100 validate-input" data-validate="Password is required">
                     <input class="input100" type="text" name="password" pattern="[A-Za-zА-Яа-яЁё0-9]{1,40}">
@@ -79,19 +75,16 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="name is required">
-                    <input class="input100" type="text" name="name" placeholder="Enter name...">
+                    <input class="input100" type="text" name="name" pattern="[A-Za-zА-Яа-яЁё0-9]{3,20}">
                     <span class="focus-input100"></span>
                     <span class="label-input100">Name</span>
-
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="email is required">
-                    <input class="input100" type="text" name="email" placeholder="Enter email...">
+                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                    <input class="input100" type="text" name="email" >
                     <span class="focus-input100"></span>
-                    <span class="label-input100">Name</span>
-
+                    <span class="label-input100">Email</span>
                 </div>
-
 
                 <div class="container-login100-form-btn">
                     <input class="login100-form-btn" type="submit" value="Registration">

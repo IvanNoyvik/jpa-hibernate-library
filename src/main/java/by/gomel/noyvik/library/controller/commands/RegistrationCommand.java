@@ -23,6 +23,7 @@ public class RegistrationCommand extends FrontCommand {
         String name = request.getParameter(NAME);
         String email = request.getParameter(EMAIL);
 
+        //ToDo check pattern
 
         if (LOGIN_PATTERN.matcher(login).matches() && password.length() > 0 && password.length() <= 40) {
 

@@ -10,7 +10,6 @@ import by.gomel.noyvik.library.service.BookService;
 import by.gomel.noyvik.library.service.MessageService;
 import by.gomel.noyvik.library.service.OrderService;
 import by.gomel.noyvik.library.service.UserService;
-import by.gomel.noyvik.library.service.impl.BookServiceImpl;
 import by.gomel.noyvik.library.service.provider.ProviderService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +62,7 @@ public class SetAttribute {
             User user = (User) request.getSession().getAttribute(USER);
 
             if (user != null){
-                boolean haveBook = orderService.findByBookAndUserId(bookId, user.getId());
+                boolean haveBook = orderService.userHaveBook(bookId, user.getId());
                 request.setAttribute(HAVE_BOOK, haveBook);
             }
 
