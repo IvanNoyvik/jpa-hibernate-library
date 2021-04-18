@@ -1,13 +1,7 @@
 package by.gomel.noyvik.library.service.provider;
 
-import by.gomel.noyvik.library.service.BookService;
-import by.gomel.noyvik.library.service.MessageService;
-import by.gomel.noyvik.library.service.OrderService;
-import by.gomel.noyvik.library.service.UserService;
-import by.gomel.noyvik.library.service.impl.BookServiceImpl;
-import by.gomel.noyvik.library.service.impl.MessageServiceImpl;
-import by.gomel.noyvik.library.service.impl.OrderServiceImpl;
-import by.gomel.noyvik.library.service.impl.UserServiceImpl;
+import by.gomel.noyvik.library.service.*;
+import by.gomel.noyvik.library.service.impl.*;
 
 public final class ProviderService {
 
@@ -17,6 +11,7 @@ public final class ProviderService {
     private final UserService userService = new UserServiceImpl();
     private final OrderService orderService = new OrderServiceImpl();
     private final MessageService messageService = new MessageServiceImpl();
+    private final AuthorService authorService = new AuthorServiceImpl();
 
 
     private ProviderService(){}
@@ -39,5 +34,9 @@ public final class ProviderService {
     }
 
     public MessageService getMessageService() { return messageService;
+    }
+
+    public AuthorService getAuthorService() {
+        return authorService;
     }
 }

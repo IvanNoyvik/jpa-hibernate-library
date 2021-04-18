@@ -2,7 +2,6 @@ package by.gomel.noyvik.library.persistance.dao.impl;
 
 
 import by.gomel.noyvik.library.model.Message;
-import by.gomel.noyvik.library.model.User;
 import by.gomel.noyvik.library.persistance.dao.MessageDao;
 
 import javax.persistence.EntityManager;
@@ -24,31 +23,16 @@ public class MessageJpaDao extends AbstractJpaCrudDao<Message> implements Messag
         return messages;
     }
 
-//    @Override
-//    public Message save(Message message) {
-//
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        entityManager.getTransaction().begin();
-//        entityManager.persist(message);
-//        entityManager.merge(message);
-//        entityManager.getTransaction().commit();
-//        entityManager.close();
-//
-//        return message;
-//    }todo Dont repitable save(cascade, nn in ddl)
     @Override
     public Message save(Message message) {
-        User user = message.getUser();
-        message.removeUser();
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(message);
-        message.addUser(user);
-        entityManager.merge(message);
         entityManager.getTransaction().commit();
         entityManager.close();
 
         return message;
     }
+
 }

@@ -74,35 +74,13 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
         return orders;
     }
 
-//    @Override
-//    public List<Order> findAllOverdueOrder() {
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        List<Order> orders;
-//        try {
-//            orders = entityManager.createNativeQuery("SELECT ID, DATE_RECEIVING, DURATION, BOOKS_ID, USERS_ID FROM ORDERS " +
-//                    "WHERE DATEADD('DAY', DURATION, DATE_RECEIVING) < CURRENT_TIMESTAMP()", Order.class).getResultList();
-//            for (Order order: orders) {
-//                Hibernate.initialize(order.getBook());
-//                Hibernate.initialize(order.getUser().getStatus()); //todo init + check status(null?)
-//            }
-//        } catch (NoResultException e) {
-//            return null;
-//        } catch (Exception e) {
-//            throw new DaoPartException(e.getMessage(), e);
-//        } finally {
-//            entityManager.close();
-//        }
-//
-//        return orders;
-//    }
-
     @Override
     public List<Order> findAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Order> orders;
         try {
             orders = entityManager.createQuery("SELECT o FROM Order o left join fetch o.book " +
-                    "left join fetch o.user u left join fetch u.status", Order.class).getResultList();
+                    "left join fetch o.user u left join fetch u.status left join fetch u.authenticate", Order.class).getResultList();
 
         } catch (NoResultException e) {
             return null;
@@ -141,6 +119,7 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
         try {
             orders = entityManager.createQuery("SELECT o FROM Order o  " +
                     "where o.user.id = :userId", Order.class).setParameter("userId", userId).getResultList();
+
 
         } catch (NoResultException e) {
             return null;

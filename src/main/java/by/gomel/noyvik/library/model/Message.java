@@ -21,8 +21,8 @@ public class Message {
     private LocalDate dateSent;
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY
+           /* ,            cascade = {CascadeType.PERSIST, CascadeType.MERGE}*/)
     @JoinColumn(name = "USERS_ID", referencedColumnName = "ID")
     private User user;
 

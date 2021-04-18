@@ -12,13 +12,12 @@ import by.gomel.noyvik.library.persistance.dao.UserDao;
 import by.gomel.noyvik.library.service.UserService;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
+import static by.gomel.noyvik.library.controller.constant.CommandConstant.LIMITED;
 
 public class UserServiceImpl extends AbstractCrudService<User> implements UserService {
 
@@ -89,26 +88,68 @@ public class UserServiceImpl extends AbstractCrudService<User> implements UserSe
 
     }
 
+    //    @Override
+//    public Map<User, Integer> findUserWithCountOverdueOrder() {
+//
+//        List<User> users = userDao.findAll();
+//        Map<User, Integer> userWithCountOverdueOrder = new LinkedHashMap<>();
+//        for (User user: users) {
+//            Integer countOverdueOrder = getCountOverdueOrder(orderDao.findAllOrdersByUserId(user.getId()));
+//            userWithCountOverdueOrder.put(user, countOverdueOrder);
+//        }
+//        return userWithCountOverdueOrder;
+//    }
     @Override
     public Map<User, Integer> findUserWithCountOverdueOrder() {
 
-        List<User> users = userDao.findAll();
+        List<Object[]> allUsersWithOrder = userDao.findAllWithOrder();
+
+        Map<User, List<Order>> userWithAllOrders = mapper(allUsersWithOrder);
+
         Map<User, Integer> userWithCountOverdueOrder = new LinkedHashMap<>();
-        for (User user: users) {
-            Integer countOverdueOrder = getCountOverdueOrder(orderDao.findAllOrdersByUserId(user.getId()));
+
+        for (User user : userWithAllOrders.keySet()) {
+
+            Integer countOverdueOrder = getCountOverdueOrder(userWithAllOrders.get(user));
             userWithCountOverdueOrder.put(user, countOverdueOrder);
+
         }
+
         return userWithCountOverdueOrder;
     }
 
-    private int getCountOverdueOrder(List<Order> orders){
 
-        return (int)orders.stream().
+    private Map<User, List<Order>> mapper(List<Object[]> userOrderList) {
+
+        Map<User, List<Order>> userWithAllOrders = new LinkedHashMap<>();
+
+        for (Object[] userOrder : userOrderList) {
+
+            User user = (User) userOrder[0];
+            Order order = (Order) userOrder[1];
+
+            if (!userWithAllOrders.containsKey(user)) {
+                List<Order> orders = new ArrayList<>();
+                if (order != null) {
+                    orders.add(order);
+                }
+                userWithAllOrders.put(user, orders);
+            } else {
+                if (order != null) {
+                    userWithAllOrders.get(user).add(order);
+                }
+            }
+        }
+        return userWithAllOrders;
+    }
+
+    private int getCountOverdueOrder(List<Order> orders) {
+
+        return (int) orders.stream().
                 filter(o -> o.getDateReceiving().plusDays(o.getDuration()).isBefore(LocalDate.now()))
                 .count();
 
     }
-
 
 
 }

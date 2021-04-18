@@ -2,15 +2,11 @@ package by.gomel.noyvik.library.persistance.dao.impl;
 
 
 import by.gomel.noyvik.library.exception.DaoPartException;
-import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.model.Role;
-import by.gomel.noyvik.library.model.Status;
 import by.gomel.noyvik.library.model.User;
 import by.gomel.noyvik.library.persistance.connection.ProviderDao;
 import by.gomel.noyvik.library.persistance.dao.RoleDao;
-import by.gomel.noyvik.library.persistance.dao.StatusDao;
 import by.gomel.noyvik.library.persistance.dao.UserDao;
-import org.hibernate.Hibernate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -24,6 +20,9 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
         User user = entityManager.find(User.class, id);
         entityManager.getTransaction().begin();
 
+        entityManager.createNativeQuery("DELETE from USERS_ROLES where USERS_ID = :userId")
+                .setParameter("userId", user.getId()).executeUpdate();
+        //todo delete orders before??
         entityManager.remove(user);
 
         entityManager.getTransaction().commit();
@@ -44,6 +43,19 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
         return users;
     }
 
+    @Override
+    public List<Object[]> findAllWithOrder() {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        List<Object[]> users = entityManager.createQuery("SELECT distinct u, o from User u left join fetch u.status " +
+                "left join fetch u.authenticate left join TREAT (u.orders as Order ) o order by u.status.id desc").getResultList();
+
+        entityManager.close();
+
+        return users;
+    }
+
 
     @Override
     public User save(User user) {
@@ -53,13 +65,14 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
-        entityManager.persist(user);
-        Role role = roleDao.getUserRole();
+        Role role = entityManager.find(Role.class, 2L);
         user.addRole(role);
+        entityManager.persist(user);
 
-        entityManager.merge(user);
+//        entityManager.merge(user);
 
         entityManager.getTransaction().commit();
+        entityManager.close();
         return user;
     }
 
