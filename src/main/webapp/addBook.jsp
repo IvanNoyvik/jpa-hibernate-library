@@ -45,7 +45,7 @@
 
 
         <div id="templatemo_content_right">
-            <c:if test="${sessionScope.user.role.role.equalsIgnoreCase('Administrator')}">
+            <c:if test="${sessionScope.user.roles.contains(applicationScope.admin)}">
 
                 <h1>Create new book: </h1>
 
@@ -58,7 +58,7 @@
                     <div class="product_info">
 
                         <label> Genre:
-                            <select name="genre">
+                            <select name="genres" multiple="multiple" required>
                                 <option disabled>Select genre</option>
                                 <c:forEach items="${requestScope.genres}" var="genre">
                                     <option value="${genre.genre}">${genre.genre}</option>

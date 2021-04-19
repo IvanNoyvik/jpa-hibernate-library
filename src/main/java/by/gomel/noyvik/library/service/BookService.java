@@ -14,5 +14,5 @@ public interface BookService extends CrudService<Book> {
 
     boolean findByTitleAndAuthor(String title, String author);
 
-    Book save(String title, String description, int quantity, String genres, String author);
+    Book save(String title, String description, int quantity, String[] genres, String author);
 }

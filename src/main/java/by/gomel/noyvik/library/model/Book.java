@@ -3,6 +3,7 @@ package by.gomel.noyvik.library.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -25,22 +26,28 @@ public class Book {
     private byte[] image;
     private int quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY/*, cascade = {CascadeType.MERGE, CascadeType.PERSIST} */)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUTHORS_ID", referencedColumnName = "ID")
     private Author author;
 
-    @ManyToMany(mappedBy = "books", cascade = {CascadeType.PERSIST, CascadeType.MERGE})//todo cascade
-    private Set<Genre> genres;
+    @ManyToMany(mappedBy = "books")
+    private Set<Genre> genres = new HashSet<>();
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Order> orders;
+    private Set<Order> orders = new HashSet<>();
 
 
     public Book(Long id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
+    }
+
+    public Book(String title, String description, int quantity) {
+        this.title = title;
+        this.description = description;
+        this.quantity = quantity;
     }
 
     public Book(String title, String description) {

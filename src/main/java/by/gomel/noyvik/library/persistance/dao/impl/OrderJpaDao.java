@@ -94,7 +94,6 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
     }
 
 
-
     @Override
     public boolean findByBookAndUserId(Long bookId, Long userId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -132,4 +131,21 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
         return orders;
 
     }
+
+    @Override
+    public void removeAllOrder(Long userId) {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        entityManager.createQuery("delete Order o where o.user.id = :userId")
+                .setParameter("userId", userId).executeUpdate();
+
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+
+    }
+
+
 }

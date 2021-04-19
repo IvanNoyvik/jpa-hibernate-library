@@ -13,4 +13,9 @@ public interface UserDao extends CrudDao<User> {
 
     User findByLogin(String login);
 
+
+    User changeStatus(User user, String status, int duration);
+
+    User changeStatus(Long userId, String status, int duration);
+
 }

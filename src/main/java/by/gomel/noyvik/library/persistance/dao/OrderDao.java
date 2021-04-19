@@ -16,4 +16,5 @@ public interface OrderDao extends CrudDao<Order> {
 
     List<Order> findAllOrdersByUserId(Long userId);
 
+    void removeAllOrder(Long userId);
 }

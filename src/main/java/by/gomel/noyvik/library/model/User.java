@@ -27,13 +27,13 @@ public class User {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private Authenticate authenticate;
 
-    @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "users", cascade = {/*CascadeType.PERSIST, */CascadeType.MERGE}, fetch = FetchType.LAZY)
 //    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles = new HashSet<>();
+                                                //todo check cascade!!!
 
-
-    @ManyToOne(fetch = FetchType.LAZY,  //todo check cascade!!!
-            cascade = {CascadeType.MERGE/*, CascadeType.PERSIST*/})
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE})
     @JoinColumn(name = "STATUSES_ID", referencedColumnName = "ID")
     private Status status;
 
@@ -79,8 +79,8 @@ public class User {
     }
 
     public void removeStatus() {
-        this.setStatus(null);
         status.getUsers().remove(this);
+        this.setStatus(null);
     }
 
     public void addMessage(Message message) {

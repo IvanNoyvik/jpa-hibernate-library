@@ -12,6 +12,7 @@ public final class ProviderService {
     private final OrderService orderService = new OrderServiceImpl();
     private final MessageService messageService = new MessageServiceImpl();
     private final AuthorService authorService = new AuthorServiceImpl();
+    private final GenreService genreService = new GenreServiceImpl();
 
 
     private ProviderService(){}
@@ -34,6 +35,10 @@ public final class ProviderService {
     }
 
     public MessageService getMessageService() { return messageService;
+    }
+
+    public GenreService getGenreService() {
+        return genreService;
     }
 
     public AuthorService getAuthorService() {

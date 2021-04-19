@@ -35,7 +35,7 @@ public class AddAuthorCommand extends FrontCommand {
 
         } else {
 
-            redirectWithResp(ADMIN_JSP, ADD_AUTHOR_FAIL + "invalidate data");
+            redirectWithResp(ADMIN_JSP, ADD_AUTHOR_FAIL + " invalidate data");
 
         }
 

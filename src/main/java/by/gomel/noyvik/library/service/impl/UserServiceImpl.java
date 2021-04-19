@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.LIMITED;
+import static by.gomel.noyvik.library.controller.constant.CommandConstant.LOCKED;
 
 public class UserServiceImpl extends AbstractCrudService<User> implements UserService {
 
@@ -88,17 +89,7 @@ public class UserServiceImpl extends AbstractCrudService<User> implements UserSe
 
     }
 
-    //    @Override
-//    public Map<User, Integer> findUserWithCountOverdueOrder() {
-//
-//        List<User> users = userDao.findAll();
-//        Map<User, Integer> userWithCountOverdueOrder = new LinkedHashMap<>();
-//        for (User user: users) {
-//            Integer countOverdueOrder = getCountOverdueOrder(orderDao.findAllOrdersByUserId(user.getId()));
-//            userWithCountOverdueOrder.put(user, countOverdueOrder);
-//        }
-//        return userWithCountOverdueOrder;
-//    }
+
     @Override
     public Map<User, Integer> findUserWithCountOverdueOrder() {
 
@@ -116,6 +107,38 @@ public class UserServiceImpl extends AbstractCrudService<User> implements UserSe
         }
 
         return userWithCountOverdueOrder;
+    }
+
+    @Override
+    public boolean changeStatus(Long userId, String status, int duration) {
+        try {
+            User user = userDao.findById(userId);
+            if (!user.getStatus().getStatus().equals(status)) {
+
+                if (status.equals(LOCKED) && !user.getOrders().isEmpty()) {
+
+                    orderDao.removeAllOrder(userId);
+
+
+                    userDao.changeStatus(userId, status, duration);
+
+                } else {
+
+                    userDao.changeStatus(user, status, duration);
+                }
+
+            }
+        } catch (DaoPartException e) {
+
+            return false;
+
+        } catch (Exception e) {
+            throw new ServiceException(e);
+        }
+
+
+        return true;
+
     }
 
 

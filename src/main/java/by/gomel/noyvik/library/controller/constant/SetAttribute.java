@@ -2,14 +2,8 @@ package by.gomel.noyvik.library.controller.constant;
 
 
 
-import by.gomel.noyvik.library.model.Book;
-import by.gomel.noyvik.library.model.Message;
-import by.gomel.noyvik.library.model.Order;
-import by.gomel.noyvik.library.model.User;
-import by.gomel.noyvik.library.service.BookService;
-import by.gomel.noyvik.library.service.MessageService;
-import by.gomel.noyvik.library.service.OrderService;
-import by.gomel.noyvik.library.service.UserService;
+import by.gomel.noyvik.library.model.*;
+import by.gomel.noyvik.library.service.*;
 import by.gomel.noyvik.library.service.provider.ProviderService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,17 +87,17 @@ public class SetAttribute {
 //
 //        }
 //
-//        if (target.equalsIgnoreCase(ADD_BOOK_JSP)) {
-//
-//            GenreJdbcDao genreDao = GenreJdbcDao.getInstance();
-//            List<Genre> genres = genreDao.findAll();
-//            request.setAttribute(GENRES, genres);
-//            AuthorJdbcDao authorDao = AuthorJdbcDao.getInstance();
-//            List<Author> authors = authorDao.findAll();
-//            request.setAttribute(AUTHORS, authors);
-//
-//        }
-//
+        if (target.equalsIgnoreCase(ADD_BOOK_JSP)) {
+
+            GenreService genreService = PROVIDER_SERVICE.getGenreService();
+            List<Genre> genres = genreService.findAll();
+            request.setAttribute(GENRES, genres);
+            AuthorService authorService = PROVIDER_SERVICE.getAuthorService();
+            List<Author> authors = authorService.findAll();
+            request.setAttribute(AUTHORS, authors);
+
+        }
+
         if (target.equalsIgnoreCase(ADMIN_JSP)) {
 
             UserService userService = PROVIDER_SERVICE.getUserService();

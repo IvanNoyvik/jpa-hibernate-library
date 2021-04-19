@@ -16,4 +16,7 @@ public interface UserService extends CrudService<User> {
     User registration(String login, String password, String name, String email);
 
     Map<User, Integer> findUserWithCountOverdueOrder();
+
+
+    boolean changeStatus(Long userId, String status, int duration);
 }

@@ -16,6 +16,16 @@ public class StatusJpaDao extends AbstractJpaCrudDao<Status> implements StatusDa
 
 
     @Override
+    public Status getStatus(String statusStr) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Status status = entityManager.createQuery(
+                "SELECT s from Status s join fetch s.users where s.status = :status", Status.class)
+                .setParameter("status", statusStr).getSingleResult();
+        entityManager.close();
+        return status;
+    }
+
+    @Override
     public Status getOkStatus() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Status status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")

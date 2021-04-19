@@ -1,5 +1,7 @@
 package by.gomel.noyvik.library.controller.constant;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public interface CommandConstant {
@@ -42,6 +44,7 @@ public interface CommandConstant {
     String BLOCK = "Your account is blocked";
     String UNKNOWN_COMMAND = "UNKNOWN_COMMAND";
     String ERROR_PROCESS = "/redirect?target=main&resp=Incorrect or unsupported operations";
+    String UNKNOWN_OPERATION = "Unknown or unsupported operations";
     String PARSE_NUMBER_EXCEPTION = "You entered invalid data";
 
 
@@ -84,6 +87,7 @@ public interface CommandConstant {
     String OK = "OK";
     String LIMITED = "Limited";
     String LOCKED = "Locked";
+    List<String> STATUSES = Arrays.asList(OK, LIMITED, LOCKED);
     String DURATION = "duration";
 
 

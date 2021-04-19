@@ -2,47 +2,50 @@ package by.gomel.noyvik.library.service.impl;
 
 import by.gomel.noyvik.library.model.Author;
 import by.gomel.noyvik.library.model.Book;
-import by.gomel.noyvik.library.model.Genre;
-import by.gomel.noyvik.library.persistance.connection.ProviderDao;
+import by.gomel.noyvik.library.persistance.dao.AuthorDao;
+import by.gomel.noyvik.library.persistance.dao.BookDao;
+import by.gomel.noyvik.library.persistance.dao.GenreDao;
 import by.gomel.noyvik.library.service.BookService;
 
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 
 public class BookServiceImpl extends AbstractCrudService<Book> implements BookService {
+
+    private final BookDao bookDao = PROVIDER_DAO.getBookDao();
+    private final GenreDao genreDao = PROVIDER_DAO.getGenreDao();
+    private final AuthorDao authorDao = PROVIDER_DAO.getAuthorDao();
 
 
     @Override
     public byte[] findImageById(Long id) {
-       return PROVIDER_DAO.getBookDao().findImageById(id);
+        return bookDao.findImageById(id);
     }
 
     @Override
     public void addImage(Long id, InputStream inputStream) {
-        PROVIDER_DAO.getBookDao().addImage(id,inputStream);
+        bookDao.addImage(id, inputStream);
     }
 
     @Override
     public boolean findByTitleAndAuthor(String title, String author) {
 
-        return !title.isEmpty() && !author.isEmpty() && PROVIDER_DAO.getBookDao().findByTitleAndAuthor(title, author);
+        return !title.isEmpty() && !author.isEmpty() && bookDao.findByTitleAndAuthor(title, author);
     }
 
     @Override
-    public Book save(String title, String description, int quantity, String genreName, String authorName) {
+    public Book save(String title, String description, int quantity, String[] genreName, String authorName) {
 
-        if (quantity <= 180 && quantity >= 0){
+        if (!bookDao.findByTitleAndAuthor(title, authorName)) {
 
-            Genre genre = PROVIDER_DAO.getGenreDao().findByGenre(genreName);
-            Author author = PROVIDER_DAO.getAuthorDao().findByAuthor(authorName);
+            Book book = new Book(title, description, quantity);
+            Author author = authorDao.findByAuthor(authorName);
+            book.setAuthor(author);
 
-            return super.save(Book.builder()
-                    .title(title).description(description).quantity(quantity)
-                    .genres(new HashSet<>(Collections.singletonList(genre))).author(author).build());
 
+
+
+            return bookDao.save(book, genreName);
+//            return bookDao.update(book);
         } else {
 
             throw new SecurityException();

@@ -1,9 +1,7 @@
 package by.gomel.noyvik.library.controller.commands;
 
 import by.gomel.noyvik.library.controller.FrontCommand;
-import by.gomel.noyvik.library.model.Author;
-import by.gomel.noyvik.library.model.Book;
-import by.gomel.noyvik.library.model.Genre;
+import by.gomel.noyvik.library.service.BookService;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -12,7 +10,7 @@ import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
 
 public class AddBookCommand extends FrontCommand {
 
-
+    private final BookService bookService = PROVIDER_SERVICE.getBookService();
 
 
     @Override
@@ -32,16 +30,14 @@ public class AddBookCommand extends FrontCommand {
             return;
         }
 
-        String genres = request.getParameter(GENRE);
+        String[] genres = request.getParameterValues(GENRES);
         String author = request.getParameter(AUTHOR);
 
-        if (!PROVIDER_SERVICE.getBookService().findByTitleAndAuthor(title, author)) {
-
-
+        if (quantity >= 0 && quantity<=180 && title != null && !title.trim().isEmpty() && genres != null) {
 
             try {
 
-                Book book = PROVIDER_SERVICE.getBookService().save(title, description, quantity, genres, author);
+                bookService.save(title, description, quantity, genres, author);
 
                 redirectWithResp(MAIN_JSP, ADD_BOOK_OK);
 
