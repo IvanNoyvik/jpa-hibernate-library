@@ -1,6 +1,7 @@
 package by.gomel.noyvik.library.controller.commands;
 
 import by.gomel.noyvik.library.controller.FrontCommand;
+import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.service.BookService;
 
 import javax.servlet.ServletException;
@@ -37,9 +38,15 @@ public class AddBookCommand extends FrontCommand {
 
             try {
 
-                bookService.save(title, description, quantity, genres, author);
+                Book book = bookService.save(title, description, quantity, genres, author);
 
-                redirectWithResp(MAIN_JSP, ADD_BOOK_OK);
+                if (book != null){
+
+                    redirectWithResp(MAIN_JSP, ADD_BOOK_OK);
+                } else {
+                    redirectWithResp(MAIN_JSP, BOOK_EXISTS);
+
+                }
 
             } catch (SecurityException e) {
 
@@ -49,7 +56,7 @@ public class AddBookCommand extends FrontCommand {
 
         } else {
 
-            redirectWithResp(MAIN_JSP, ADD_BOOK_FAIL);
+            redirectWithResp(MAIN_JSP, ADD_BOOK_FAIL + " invalidate data");
 
         }
 

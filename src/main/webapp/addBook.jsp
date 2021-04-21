@@ -59,7 +59,7 @@
 
                         <label> Genre:
                             <select name="genres" multiple="multiple" required>
-                                <option disabled>Select genre</option>
+                                <option disabled>Select one or more genre</option>
                                 <c:forEach items="${requestScope.genres}" var="genre">
                                     <option value="${genre.genre}">${genre.genre}</option>
                                 </c:forEach>

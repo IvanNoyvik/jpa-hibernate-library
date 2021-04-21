@@ -1,6 +1,6 @@
 package by.gomel.noyvik.library.controller;
 
-import by.gomel.noyvik.library.controller.constant.SetAttribute;
+import by.gomel.noyvik.library.controller.attribute.AttributeSetterFactory;
 import by.gomel.noyvik.library.service.provider.ProviderService;
 
 import javax.servlet.RequestDispatcher;
@@ -10,13 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
+import static by.gomel.noyvik.library.controller.constant.CommandConstant.POSTFIX;
+import static by.gomel.noyvik.library.controller.constant.CommandConstant.PREFIX;
 
 public abstract class FrontCommand {
 
     protected ServletContext context;
     protected HttpServletRequest request;
     protected HttpServletResponse response;
+    private final AttributeSetterFactory attributeSetter = AttributeSetterFactory.getInstance();
+
 
     protected final ProviderService PROVIDER_SERVICE = ProviderService.getInstance();
 
@@ -34,20 +37,21 @@ public abstract class FrontCommand {
 
     protected void forward(String target) throws ServletException, IOException {
 
-            SetAttribute.setAttribute(target, request);
+        attributeSetter.getAttributeSetter(target, request);
+//            SetAttribute.setAttribute(target, request);
 
-            target = PREFIX + target + POSTFIX;
-            RequestDispatcher dispatcher = context.getRequestDispatcher(target);
+        target = PREFIX + target + POSTFIX;
+        RequestDispatcher dispatcher = context.getRequestDispatcher(target);
 
-            dispatcher.forward(request, response);
+        dispatcher.forward(request, response);
 
     }
 
 
     protected void redirectWithResp(String target, String resp) throws IOException {
 
-            target = "/redirect?target=" + target + "&resp=" + resp;
-            response.sendRedirect(target);
+        target = "/redirect?target=" + target + "&resp=" + resp;
+        response.sendRedirect(target);
 
     }
 

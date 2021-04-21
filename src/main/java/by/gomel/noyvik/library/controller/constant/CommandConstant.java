@@ -10,6 +10,8 @@ public interface CommandConstant {
     String PREFIX = "/";
 
     String COMMAND_PATH = "by.gomel.noyvik.library.controller.commands.%sCommand";
+    String ATTRIBUTE_SETTER_PATH = "by.gomel.noyvik.library.controller.attribute.%sAttributeSetter";
+
 
 
     String LOGIN_PATTERN_REGX = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,40}[a-zA-Z0-9]$";
@@ -20,6 +22,7 @@ public interface CommandConstant {
     String LOGIN_OK = "Hello ";
     String LOGIN_FAIL = "Wrong log or pass";
     String REGISTRATION_FAIL = "Failed to registration";
+    String USER_EXISTS = "User with this login already exists";
     String REGISTRATION_OK = "You have successfully registered!";
     String ADD_ORDER_FAIL = "Book adding error";
     String ADD_ORDER_OK = "The book has been placed in your library";
@@ -29,6 +32,7 @@ public interface CommandConstant {
     String SENT_MESSAGE_FAIL = "Sending message error";
     String ADD_BOOK_FAIL = "Failed to add book";
     String ADD_BOOK_OK = "Book added";
+    String BOOK_EXISTS = "This book already exists";
     String ADD_AUTHOR_FAIL = "Failed to add author";
     String ADD_AUTHOR_OK = "Author added";
     String ADD_GENRE_FAIL = "Failed to add genre";

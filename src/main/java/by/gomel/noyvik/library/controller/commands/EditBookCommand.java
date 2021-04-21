@@ -1,13 +1,11 @@
 //package by.gomel.noyvik.library.controller.commands;
 //
-//import by.gomel.library.exception.DaoPartException;
 //import by.gomel.noyvik.library.controller.FrontCommand;
+//import by.gomel.noyvik.library.exception.DaoPartException;
 //import by.gomel.noyvik.library.model.Author;
 //import by.gomel.noyvik.library.model.Book;
 //import by.gomel.noyvik.library.model.Genre;
-//import by.gomel.noyvik.library.persistance.dao.bookimpl.AuthorJdbcDao;
-//import by.gomel.noyvik.library.persistance.dao.bookimpl.BookJdbcDao;
-//import by.gomel.noyvik.library.persistance.dao.bookimpl.GenreJdbcDao;
+//import by.gomel.noyvik.library.service.BookService;
 //
 //import javax.servlet.ServletException;
 //import java.io.IOException;
@@ -16,7 +14,7 @@
 //
 //public class EditBookCommand extends FrontCommand {
 //
-//    private static final BookJdbcDao BOOK_DAO = BookJdbcDao.getInstance();
+//    private  final BookService bookService = PROVIDER_SERVICE.getBookService();
 //    private static final GenreJdbcDao GENRE_DAO = GenreJdbcDao.getInstance();
 //    private static final AuthorJdbcDao AUTHOR_DAO = AuthorJdbcDao.getInstance();
 //
@@ -25,7 +23,6 @@
 //    public void process() throws ServletException, IOException {
 //
 //        long bookId = Long.parseLong(request.getParameter(BOOK_ID));
-//        Book book = BOOK_DAO.findById(bookId);
 //
 //        String title = request.getParameter(TITLE);
 //        String description = request.getParameter(DESCRIPTION);
@@ -40,19 +37,10 @@
 //            return;
 //        }
 //
-//        long genreId = Long.parseLong(request.getParameter(GENRE));
-//        Genre genre = GENRE_DAO.findById(genreId);
-//
+//        String[] genres = request.getParameterValues(GENRES);
 //        long authorId = Long.parseLong(request.getParameter(AUTHOR));
-//        Author author = AUTHOR_DAO.findById(authorId);
 //
-//        book.setTitle(title);
-//        book.setDescription(description);
-//        book.setQuantity(quantity);
-//        book.setGenre(genre);
-//        book.setAuthor(author);
-//
-//
+//        if
 //        try {
 //
 //            book = BOOK_DAO.update(book);

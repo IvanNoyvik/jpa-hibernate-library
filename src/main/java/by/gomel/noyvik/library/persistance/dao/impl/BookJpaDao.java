@@ -8,7 +8,6 @@ import by.gomel.noyvik.library.persistance.dao.BookDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import java.io.InputStream;
 import java.util.List;
 
 
@@ -19,7 +18,7 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
     public Book findById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Book book = entityManager.createQuery(
-                "SELECT b from Book b join fetch b.author join fetch b.genres where b.id = :id", Book.class)
+                "SELECT b from Book b left join fetch b.author left join fetch b.genres where b.id = :id", Book.class)
                 .setParameter("id", id).getSingleResult();
         entityManager.close();
         return book;
@@ -42,10 +41,24 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
         entityManager.close();
         return image;
     }
-    //TODO !!!!!!!!!!!!!!!!!!!!!!!
 
     @Override
-    public void addImage(Long id, InputStream inputStream) {
+    public void addImage(Long id, byte[] image) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            entityManager.getTransaction().begin();
+
+            Book book = entityManager.find(Book.class, id);
+            book.setImage(image);
+            entityManager.merge(book);
+            entityManager.getTransaction().commit();
+        }catch ( Exception e){
+            throw new DaoPartException("Add image method fail!", e);
+        } finally {
+
+            entityManager.close();
+        }
 
     }
 
@@ -69,33 +82,39 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
     public Book save(Book book, String[] genreName) {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
 
-        if (genreName.length > 1) {
-            List<Genre> genreList = entityManager.createQuery(
-                    "select distinct g from Genre g left join fetch g.books", Genre.class).getResultList();
-            for (Genre genre : genreList) {
-                for (String genreStr : genreName) {
+        try{
 
-                    if (genreStr.equals(genre.getGenre())) {
+            entityManager.getTransaction().begin();
+            if (genreName.length > 1) {
+                List<Genre> genreList = entityManager.createQuery(
+                        "select distinct g from Genre g left join fetch g.books", Genre.class).getResultList();
+                for (Genre genre : genreList) {
+                    for (String genreStr : genreName) {
+
+                        if (genreStr.equals(genre.getGenre())) {
 //                            genres.add(genre);
-                        book.addGenre(genre);
-                        break;
+                            book.addGenre(genre);
+                            break;
+                        }
                     }
                 }
+
+            } else {
+
+                Genre genre = entityManager.createQuery("from Genre g left join fetch g.books where g.genre = :genre", Genre.class)
+                        .setParameter("genre", genreName[0]).getSingleResult();
+                book.addGenre(genre);
             }
 
-        } else {
+            entityManager.persist(book);
+            entityManager.getTransaction().commit();
+        }catch ( Exception e){
+            throw new DaoPartException();
+        } finally {
 
-//                genres.add(genreDao.findByGenre(genreName[0]));
-            Genre genre = entityManager.createQuery("from Genre g left join fetch g.books where g.genre = :genre", Genre.class)
-                    .setParameter("genre", genreName[0]).getSingleResult();
-            book.addGenre(genre);
-
+            entityManager.close();
         }
-        entityManager.persist(book);
-        entityManager.getTransaction().commit();
-        entityManager.close();
 
         return book;
     }

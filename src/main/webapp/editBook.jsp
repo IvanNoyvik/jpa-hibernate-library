@@ -26,7 +26,7 @@
 
 
         <div id="templatemo_new_books">
-            <c:if test="${sessionScope.user.role.role eq 'Administrator'}">
+            <c:if test="${sessionScope.user.roles.contains(applicationScope.admin)}">
                 <%--                <form action="<c:url value="/front"/>" method="post" >--%>
                 <%--                    <input type="hidden" name="command" value="Forward"/>--%>
                 <%--                    <input type="hidden" name="forward" value="editBook"/>--%>
@@ -66,7 +66,7 @@
                             <c:param name="command" value="GetImage"/>
                         </c:url>
                         <div>
-                            <img src="${image}" alt="CSS Template" width="100"
+                            <img src="${image}" alt="CSS Template" width="150"
                                  height="150"/>
                         </div>
                         <input type="file" name="image" accept="image/*"/>
@@ -85,13 +85,15 @@
 
                     <div class="product_info">
 
-                        <label> Genre (${requestScope.book.genre.genre}):
-                            <select name="genre">
+                        <label> Genre (/<c:forEach items="${requestScope.book.genres}" var="genre">
+                            <c:out value="${genre.genre}"/>/
+                        </c:forEach>)
+                            <select name="genres" multiple="multiple" required>
                                 <c:forEach items="${requestScope.genres}" var="genre">
-                                    <c:if test="${genre eq requestScope.book.genre}">
+                                    <c:if test="${requestScope.book.genres.contains(genre)}">
                                         <option selected value="${genre.id}">${genre.genre}</option>
                                     </c:if>
-                                    <c:if test="${genre ne requestScope.book.genre}">
+                                    <c:if test="${!requestScope.book.genres.contains(genre)}">
                                         <option value="${genre.id}">${genre.genre}</option>
                                     </c:if>
                                 </c:forEach>

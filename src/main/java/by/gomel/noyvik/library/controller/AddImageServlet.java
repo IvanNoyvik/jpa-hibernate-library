@@ -12,7 +12,8 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
+import static by.gomel.noyvik.library.controller.constant.CommandConstant.BOOK_ID;
+import static by.gomel.noyvik.library.controller.constant.CommandConstant.IMAGE;
 
 @WebServlet(name = "AddImageServlet", urlPatterns = {"/addImage"})
 @MultipartConfig
@@ -33,7 +34,8 @@ public class AddImageServlet extends HttpServlet {
             if (part != null) {
 
                 try (InputStream inputStream = part.getInputStream()) {
-                    bookService.addImage(id, inputStream);
+                    byte[] image = inputStream.readAllBytes();
+                    bookService.addImage(id, image);
                     response.sendRedirect("/redirect?target=main&resp=Add image completed");
 
                 }

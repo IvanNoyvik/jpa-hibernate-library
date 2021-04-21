@@ -24,7 +24,7 @@ public class AuthorJpaDao extends AbstractJpaCrudDao<Author> implements AuthorDa
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
-            throw new DaoPartException(e.getMessage(), e);
+            throw new DaoPartException(e.getMessage() + "findByAuthor method Exception", e);
         } finally {
             entityManager.close();
         }

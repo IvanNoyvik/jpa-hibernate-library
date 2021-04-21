@@ -1,6 +1,7 @@
 package by.gomel.noyvik.library.persistance.dao.impl;
 
 
+import by.gomel.noyvik.library.exception.DaoPartException;
 import by.gomel.noyvik.library.model.Status;
 import by.gomel.noyvik.library.persistance.dao.StatusDao;
 
@@ -18,19 +19,31 @@ public class StatusJpaDao extends AbstractJpaCrudDao<Status> implements StatusDa
     @Override
     public Status getStatus(String statusStr) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Status status = entityManager.createQuery(
-                "SELECT s from Status s join fetch s.users where s.status = :status", Status.class)
-                .setParameter("status", statusStr).getSingleResult();
-        entityManager.close();
+        Status status;
+        try {
+            status = entityManager.createQuery(
+                    "SELECT s from Status s join fetch s.users where s.status = :status", Status.class)
+                    .setParameter("status", statusStr).getSingleResult();
+        } catch (Exception e) {
+            throw new DaoPartException("getStatus method Exception", e);
+        } finally {
+            entityManager.close();
+        }
         return status;
     }
 
     @Override
     public Status getOkStatus() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Status status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")
-                .setParameter("status", OK).getSingleResult();
-        entityManager.close();
+        Status status;
+        try {
+            status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")
+                    .setParameter("status", OK).getSingleResult();
+        } catch (Exception e) {
+            throw new DaoPartException("getOkStatus Exception", e);
+        } finally {
+            entityManager.close();
+        }
         return status;
     }
 

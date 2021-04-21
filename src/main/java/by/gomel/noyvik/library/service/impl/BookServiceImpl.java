@@ -1,13 +1,12 @@
 package by.gomel.noyvik.library.service.impl;
 
+import by.gomel.noyvik.library.exception.DaoPartException;
 import by.gomel.noyvik.library.model.Author;
 import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.persistance.dao.AuthorDao;
 import by.gomel.noyvik.library.persistance.dao.BookDao;
 import by.gomel.noyvik.library.persistance.dao.GenreDao;
 import by.gomel.noyvik.library.service.BookService;
-
-import java.io.InputStream;
 
 public class BookServiceImpl extends AbstractCrudService<Book> implements BookService {
 
@@ -22,8 +21,8 @@ public class BookServiceImpl extends AbstractCrudService<Book> implements BookSe
     }
 
     @Override
-    public void addImage(Long id, InputStream inputStream) {
-        bookDao.addImage(id, inputStream);
+    public void addImage(Long id, byte[] image) {
+        bookDao.addImage(id, image);
     }
 
     @Override
@@ -37,18 +36,18 @@ public class BookServiceImpl extends AbstractCrudService<Book> implements BookSe
 
         if (!bookDao.findByTitleAndAuthor(title, authorName)) {
 
-            Book book = new Book(title, description, quantity);
-            Author author = authorDao.findByAuthor(authorName);
-            book.setAuthor(author);
+            try {
 
+                Book book = new Book(title, description, quantity);
+                Author author = authorDao.findByAuthor(authorName);
+                book.setAuthor(author);
+                return bookDao.save(book, genreName);
+            }catch (DaoPartException e){
+                throw new SecurityException();
+            }
 
-
-
-            return bookDao.save(book, genreName);
-//            return bookDao.update(book);
         } else {
-
-            throw new SecurityException();
+            return null;
         }
 
     }
