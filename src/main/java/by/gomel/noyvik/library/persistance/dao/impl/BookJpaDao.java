@@ -2,9 +2,11 @@ package by.gomel.noyvik.library.persistance.dao.impl;
 
 
 import by.gomel.noyvik.library.exception.DaoPartException;
+import by.gomel.noyvik.library.model.Author;
 import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.model.Genre;
 import by.gomel.noyvik.library.persistance.dao.BookDao;
+import by.gomel.noyvik.library.temp.StringArrayEqual;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -46,14 +48,14 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
     public void addImage(Long id, byte[] image) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        try{
+        try {
             entityManager.getTransaction().begin();
 
             Book book = entityManager.find(Book.class, id);
             book.setImage(image);
             entityManager.merge(book);
             entityManager.getTransaction().commit();
-        }catch ( Exception e){
+        } catch (Exception e) {
             throw new DaoPartException("Add image method fail!", e);
         } finally {
 
@@ -83,7 +85,7 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        try{
+        try {
 
             entityManager.getTransaction().begin();
             if (genreName.length > 1) {
@@ -93,7 +95,6 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
                     for (String genreStr : genreName) {
 
                         if (genreStr.equals(genre.getGenre())) {
-//                            genres.add(genre);
                             book.addGenre(genre);
                             break;
                         }
@@ -109,7 +110,62 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
 
             entityManager.persist(book);
             entityManager.getTransaction().commit();
-        }catch ( Exception e){
+        } catch (Exception e) {
+            throw new DaoPartException();
+        } finally {
+
+            entityManager.close();
+        }
+
+        return book;
+    }
+
+    @Override
+    public Book update(Long bookId, String title, String description, int quantity, String[] genres, String author) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Book book;
+        try {
+
+            entityManager.getTransaction().begin();
+
+            book = entityManager.createQuery("from Book b left join fetch b.genres left join fetch b.author where b.id = :id"
+                    , Book.class).setParameter("id", bookId).getSingleResult();
+
+            book.setQuantity(quantity);
+            book.setDescription(description);
+            book.setTitle(title);
+
+            if (!book.getAuthor().getAuthor().equals(author)) {
+                Author newAuthor = entityManager.createQuery("select a from Author a where a.author = :author"
+                        , Author.class).setParameter("author", author).getSingleResult();
+                book.setAuthor(newAuthor);
+            }
+
+            if (!StringArrayEqual.equals(genres, book.getGenres().stream().map(Genre::getGenre).toArray(String[]::new))) {
+                while (!book.getGenres().isEmpty()) {
+                    for (Genre genre : book.getGenres()) {
+                        book.removeGenre(genre);
+                        break;
+                    }
+                }
+                List<Genre> genreList = entityManager.createQuery(
+                        "select distinct g from Genre g left join fetch g.books", Genre.class).getResultList();
+
+                for (Genre genre : genreList) {
+                    for (String genreStr : genres) {
+
+                        if (genreStr.equals(genre.getGenre())) {
+                            book.addGenre(genre);
+                            break;
+                        }
+                    }
+                }
+
+            }
+
+            entityManager.merge(book);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
             throw new DaoPartException();
         } finally {
 

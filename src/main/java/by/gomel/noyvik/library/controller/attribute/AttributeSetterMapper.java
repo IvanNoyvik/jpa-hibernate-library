@@ -4,18 +4,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.ATTRIBUTE_SETTER_PATH;
 
-public class AttributeSetterFactory {
+public class AttributeSetterMapper {
 
-    private static final AttributeSetterFactory INSTANCE = new AttributeSetterFactory();
+    private static final AttributeSetterMapper INSTANCE = new AttributeSetterMapper();
 
-    private AttributeSetterFactory() {
+    private AttributeSetterMapper() {
     }
 
-    public static AttributeSetterFactory getInstance() {
+    public static AttributeSetterMapper getInstance() {
         return INSTANCE;
     }
 
-    public void getAttributeSetter(String target, HttpServletRequest request) {
+    public void mapAndSetAttribute(String target, HttpServletRequest request) {
         try {
 
             String classTarget = firstCharToUpperCase(target);

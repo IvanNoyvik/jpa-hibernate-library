@@ -1,6 +1,6 @@
 package by.gomel.noyvik.library.controller;
 
-import by.gomel.noyvik.library.controller.attribute.AttributeSetterFactory;
+import by.gomel.noyvik.library.controller.attribute.AttributeSetterMapper;
 import by.gomel.noyvik.library.service.provider.ProviderService;
 
 import javax.servlet.RequestDispatcher;
@@ -18,7 +18,7 @@ public abstract class FrontCommand {
     protected ServletContext context;
     protected HttpServletRequest request;
     protected HttpServletResponse response;
-    private final AttributeSetterFactory attributeSetter = AttributeSetterFactory.getInstance();
+    private final AttributeSetterMapper attributeSetter = AttributeSetterMapper.getInstance();
 
 
     protected final ProviderService PROVIDER_SERVICE = ProviderService.getInstance();
@@ -37,7 +37,7 @@ public abstract class FrontCommand {
 
     protected void forward(String target) throws ServletException, IOException {
 
-        attributeSetter.getAttributeSetter(target, request);
+        attributeSetter.mapAndSetAttribute(target, request);
 //            SetAttribute.setAttribute(target, request);
 
         target = PREFIX + target + POSTFIX;

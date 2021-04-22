@@ -52,5 +52,18 @@ public class BookServiceImpl extends AbstractCrudService<Book> implements BookSe
 
     }
 
+    @Override
+    public Book update(Long bookId, String title, String description, int quantity, String[] genres, String author) {
 
+
+            try {
+
+                return bookDao.update(bookId, title, description, quantity, genres, author);
+
+            }catch (DaoPartException e){
+                throw new SecurityException();
+            }
+
+
+    }
 }

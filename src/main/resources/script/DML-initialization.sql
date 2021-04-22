@@ -43,7 +43,7 @@ INSERT INTO MESSAGES (DATE_SENT, CONTENT, USERS_ID) VALUES (CURRENT_DATE(), 'pl
 
 INSERT INTO BOOKS (TITLE, DESCRIPTION, QUANTITY, AUTHORS_ID) VALUES ('Философия Java', 'Книго по програмированию на Java', 0, 1);
 INSERT INTO BOOKS (TITLE, DESCRIPTION, QUANTITY, AUTHORS_ID) VALUES ('Незримые академики', 'Еще одна история аля "Ромео и Джульета"... Наверное...', 5, 2);
-INSERT INTO BOOKS (TITLE, DESCRIPTION, QUANTITY, AUTHORS_ID) VALUES ('11/22/63', 'Путишествое во времени, любовь и прочие парадоксы', 5, 3);
+INSERT INTO BOOKS (TITLE, DESCRIPTION, QUANTITY, AUTHORS_ID) VALUES ('11/22/63', 'Путешествие во времени, любовь и прочие парадоксы', 5, 3);
 INSERT INTO BOOKS (TITLE, DESCRIPTION, QUANTITY, AUTHORS_ID) VALUES ('Как писать книги', 'Об мастерстве от мастера', 1, 3);
 INSERT INTO BOOKS (TITLE, DESCRIPTION, QUANTITY, AUTHORS_ID) VALUES ('Темная башня', 'Заключителья книга из одноименной серии', 5, 3);
 INSERT INTO BOOKS (TITLE, DESCRIPTION, QUANTITY, AUTHORS_ID) VALUES ('Стража! Стража!', 'О тяжелых буднях САМЫХ обычных стражников', 5, 2);

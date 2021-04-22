@@ -11,4 +11,7 @@ public interface BookDao extends CrudDao<Book> {
     boolean findByTitleAndAuthor(String title, String author);
 
     Book save(Book book, String[] genreName);
+
+    Book update(Long bookId, String title, String description, int quantity, String[] genres, String author);
+
 }

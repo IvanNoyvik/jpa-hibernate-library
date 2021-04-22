@@ -1,7 +1,7 @@
 package by.gomel.noyvik.library.controller;
 
 
-import by.gomel.noyvik.library.controller.attribute.AttributeSetterFactory;
+import by.gomel.noyvik.library.controller.attribute.AttributeSetterMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(name = "RedirectServlet", urlPatterns = {"/redirect"})
 public class RedirectServlet extends HttpServlet {
 
-    private final AttributeSetterFactory attributeSetter = AttributeSetterFactory.getInstance();
+    private final AttributeSetterMapper attributeSetter = AttributeSetterMapper.getInstance();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -27,7 +27,7 @@ public class RedirectServlet extends HttpServlet {
         if (target == null || target.isEmpty()){
             target = "main";
         }
-        attributeSetter.getAttributeSetter(target, request);
+        attributeSetter.mapAndSetAttribute(target, request);
 //        SetAttribute.setAttribute(target, request);
         String path = "/" + target + ".jsp";
         getServletContext().getRequestDispatcher(path).forward(request, response);

@@ -88,13 +88,13 @@
                         <label> Genre (/<c:forEach items="${requestScope.book.genres}" var="genre">
                             <c:out value="${genre.genre}"/>/
                         </c:forEach>)
-                            <select name="genres" multiple="multiple" required>
+                            <select name="genres" multiple="multiple" required size="5">
                                 <c:forEach items="${requestScope.genres}" var="genre">
                                     <c:if test="${requestScope.book.genres.contains(genre)}">
-                                        <option selected value="${genre.id}">${genre.genre}</option>
+                                        <option selected value="${genre.genre}">${genre.genre}</option>
                                     </c:if>
                                     <c:if test="${!requestScope.book.genres.contains(genre)}">
-                                        <option value="${genre.id}">${genre.genre}</option>
+                                        <option value="${genre.genre}">${genre.genre}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -105,10 +105,10 @@
                             <select name="author">
                                 <c:forEach items="${requestScope.authors}" var="author">
                                     <c:if test="${author eq requestScope.book.author}">
-                                        <option selected value="${author.id}">${author.author}</option>
+                                        <option selected value="${author.author}">${author.author}</option>
                                     </c:if>
                                     <c:if test="${author ne requestScope.book.author}">
-                                        <option value="${author.id}">${author.author}</option>
+                                        <option value="${author.author}">${author.author}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
