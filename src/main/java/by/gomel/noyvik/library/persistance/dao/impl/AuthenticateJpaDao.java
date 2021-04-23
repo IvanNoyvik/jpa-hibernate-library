@@ -7,6 +7,4 @@ import by.gomel.noyvik.library.persistance.dao.AuthenticateDao;
 
 public class AuthenticateJpaDao extends AbstractJpaCrudDao<Authenticate> implements AuthenticateDao {
 
-
-
 }

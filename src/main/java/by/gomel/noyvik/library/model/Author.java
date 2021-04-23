@@ -21,7 +21,7 @@ public class Author {
     private String author;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL, orphanRemoval = true)//todo cascade?
+            cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Book> books = new HashSet<>();
 
 

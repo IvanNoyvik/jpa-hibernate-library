@@ -17,29 +17,34 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
     @Override
     public void deleteById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        User user = entityManager.find(User.class, id);
-        entityManager.getTransaction().begin();
-
-        entityManager.createNativeQuery("DELETE from USERS_ROLES where USERS_ID = :userId")
-                .setParameter("userId", user.getId()).executeUpdate();
-        //todo delete orders before??
-        entityManager.remove(user);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        return;
+        try {
+            entityManager.getTransaction().begin();
+            User user = entityManager.find(User.class, id);
+            entityManager.createNativeQuery("DELETE from USERS_ROLES where USERS_ID = :userId")
+                    .setParameter("userId", user.getId()).executeUpdate();
+            entityManager.remove(user);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new DaoPartException(e.getMessage(), e);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
     public List<User> findAll() {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-        List<User> users = entityManager.createQuery("SELECT u from User u left join fetch u.status " +
-                "left join fetch u.authenticate order by u.status.id desc", User.class).getResultList();
-
-        entityManager.close();
-
+        List<User> users;
+        try {
+            users = entityManager.createQuery("SELECT u from User u left join fetch u.status " +
+                    "left join fetch u.authenticate order by u.status.id desc", User.class).getResultList();
+        } catch (Exception e) {
+            throw new DaoPartException(e.getMessage(), e);
+        } finally {
+            entityManager.close();
+        }
         return users;
     }
 
@@ -48,11 +53,16 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        List<Object[]> users = entityManager.createQuery("SELECT distinct u, o from User u left join fetch u.status " +
-                "left join fetch u.authenticate left join TREAT (u.orders as Order ) o order by u.status.id desc").getResultList();
+        List<Object[]> users;
+        try {
+            users = entityManager.createQuery("SELECT distinct u, o from User u left join fetch u.status " +
+                    "left join fetch u.authenticate left join TREAT (u.orders as Order ) o order by u.status.id desc").getResultList();
 
-        entityManager.close();
-
+        } catch (Exception e) {
+            throw new DaoPartException(e.getMessage(), e);
+        } finally {
+            entityManager.close();
+        }
         return users;
     }
 
@@ -60,16 +70,20 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
     @Override
     public User save(User user) {
 
-
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
+        try {
+            Role role = entityManager.find(Role.class, 2L);
+            user.addRole(role);
+            entityManager.persist(user);
 
-        Role role = entityManager.find(Role.class, 2L);
-        user.addRole(role);
-        entityManager.persist(user);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new DaoPartException(e.getMessage(), e);
+        } finally {
+            entityManager.close();
+        }
         return user;
     }
 
@@ -119,8 +133,6 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         try {
-
-
             entityManager.getTransaction().begin();
 
             LocalDate unlockedDate = LocalDate.now().plusDays(duration);
@@ -135,6 +147,7 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 
             entityManager.getTransaction().commit();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             throw new DaoPartException(e);
         } finally {
             entityManager.close();
@@ -168,6 +181,7 @@ public class UserJpaDao extends AbstractJpaCrudDao<User> implements UserDao {
 
             entityManager.getTransaction().commit();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             throw new DaoPartException(e);
         } finally {
             entityManager.close();

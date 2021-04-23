@@ -1,6 +1,7 @@
 package by.gomel.noyvik.library.persistance.dao.impl;
 
 
+import by.gomel.noyvik.library.exception.DaoPartException;
 import by.gomel.noyvik.library.model.Message;
 import by.gomel.noyvik.library.persistance.dao.MessageDao;
 
@@ -15,11 +16,16 @@ public class MessageJpaDao extends AbstractJpaCrudDao<Message> implements Messag
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        List<Message> messages = entityManager.createQuery("SELECT m from Message m left join fetch m.user u " +
-                "left join fetch u.authenticate", Message.class).getResultList();
+        List<Message> messages;
+        try {
+            messages = entityManager.createQuery("SELECT m from Message m left join fetch m.user u " +
+                    "left join fetch u.authenticate", Message.class).getResultList();
 
-        entityManager.close();
-
+        } catch (Exception e) {
+            throw new DaoPartException(e.getMessage() + "findAll from messageDao method", e);
+        } finally {
+            entityManager.close();
+        }
         return messages;
     }
 
@@ -28,10 +34,14 @@ public class MessageJpaDao extends AbstractJpaCrudDao<Message> implements Messag
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(message);
-        entityManager.getTransaction().commit();
-        entityManager.close();
-
+        try {
+            entityManager.persist(message);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            throw new DaoPartException(e.getMessage() + "save from messageDao method", e);
+        } finally {
+            entityManager.close();
+        }
         return message;
     }
 

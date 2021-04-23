@@ -23,19 +23,23 @@
     <packaging>war</packaging>
 
     <properties>
-        <h2.version>1.4.200</h2.version>
 
-        <hibernate-version>5.4.28.Final</hibernate-version>
+
+        <hibernate-version>5.4.30.Final</hibernate-version>
+        <slf4j-nop.version>2.0.0-alpha1</slf4j-nop.version>
+        <h2.version>1.4.200</h2.version>
 
         <servlet.version>3.1.0</servlet.version>
         <jsp.version>2.3.0</jsp.version>
         <jstl.version>1.2</jstl.version>
 
         <lombok.version>1.18.18</lombok.version>
+
     </properties>
 
 
     <dependencies>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
@@ -43,21 +47,15 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet.version}</version>
-            <scope>provided</scope>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-hikaricp</artifactId>
+            <version>${hibernate-version}</version>
         </dependency>
+
         <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
-            <version>${jsp.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>${jstl.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>${slf4j-nop.version}</version>
         </dependency>
 
         <dependency>
@@ -66,12 +64,36 @@
             <version>${h2.version}</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>${jsp.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+
     </dependencies>
 
 

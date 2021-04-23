@@ -19,28 +19,46 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
     @Override
     public Book findById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Book book = entityManager.createQuery(
-                "SELECT b from Book b left join fetch b.author left join fetch b.genres where b.id = :id", Book.class)
-                .setParameter("id", id).getSingleResult();
-        entityManager.close();
+        Book book;
+        try {
+            book = entityManager.createQuery(
+                    "SELECT b from Book b left join fetch b.author left join fetch b.genres where b.id = :id", Book.class)
+                    .setParameter("id", id).getSingleResult();
+        } catch (Exception e) {
+            throw new DaoPartException(e.getMessage() + "findById from bookDao method", e);
+        } finally {
+            entityManager.close();
+        }
         return book;
     }
 
     @Override
     public List<Book> findAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<Book> books = entityManager.createQuery("SELECT b from Book b left join fetch b.author", Book.class)
-                .getResultList();
-        entityManager.close();
+        List<Book> books;
+        try {
+            books = entityManager.createQuery("SELECT b from Book b left join fetch b.author", Book.class)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new DaoPartException(e.getMessage() + "findAll from bookDao method", e);
+        } finally {
+            entityManager.close();
+        }
         return books;
     }
 
     @Override
     public byte[] findImageById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Book book = entityManager.find(Book.class, id);
-        byte[] image = book.getImage();
-        entityManager.close();
+        byte[] image;
+        try {
+            Book book = entityManager.find(Book.class, id);
+            image = book.getImage();
+        } catch (Exception e) {
+            throw new DaoPartException(e.getMessage() + "findImageById from bookDao method", e);
+        } finally {
+            entityManager.close();
+        }
         return image;
     }
 
@@ -54,11 +72,11 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
             Book book = entityManager.find(Book.class, id);
             book.setImage(image);
             entityManager.merge(book);
+
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             throw new DaoPartException("Add image method fail!", e);
         } finally {
-
             entityManager.close();
         }
 
@@ -107,16 +125,14 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
                         .setParameter("genre", genreName[0]).getSingleResult();
                 book.addGenre(genre);
             }
-
             entityManager.persist(book);
+
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             throw new DaoPartException();
         } finally {
-
             entityManager.close();
         }
-
         return book;
     }
 
@@ -125,7 +141,6 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Book book;
         try {
-
             entityManager.getTransaction().begin();
 
             book = entityManager.createQuery("from Book b left join fetch b.genres left join fetch b.author where b.id = :id"
@@ -153,25 +168,20 @@ public class BookJpaDao extends AbstractJpaCrudDao<Book> implements BookDao {
 
                 for (Genre genre : genreList) {
                     for (String genreStr : genres) {
-
                         if (genreStr.equals(genre.getGenre())) {
                             book.addGenre(genre);
                             break;
                         }
                     }
                 }
-
             }
-
             entityManager.merge(book);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
-            throw new DaoPartException();
+            throw new DaoPartException(e);
         } finally {
-
             entityManager.close();
         }
-
         return book;
     }
 }

@@ -24,13 +24,16 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
             book.setQuantity(book.getQuantity() + 1);
             entityManager.merge(book);
             entityManager.remove(order);
+            entityManager.getTransaction().commit();
 
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-            throw new DaoPartException();
+            throw new DaoPartException(e.getMessage() + "deleteById from orderDao method", e);
+        } finally {
+
+            entityManager.close();
         }
-        entityManager.getTransaction().commit();
-        entityManager.close();
+
     }
 
     @Override
@@ -47,7 +50,7 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
-            throw new DaoPartException(e.getMessage(), e);
+            throw new DaoPartException(e.getMessage() + "findByBookId from orderDao method", e);
         } finally {
             entityManager.close();
         }
@@ -137,14 +140,15 @@ public class OrderJpaDao extends AbstractJpaCrudDao<Order> implements OrderDao {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-
-        entityManager.createQuery("delete Order o where o.user.id = :userId")
-                .setParameter("userId", userId).executeUpdate();
-
-        entityManager.getTransaction().commit();
-
-        entityManager.close();
-
+        try {
+            entityManager.createQuery("delete Order o where o.user.id = :userId")
+                    .setParameter("userId", userId).executeUpdate();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            throw new DaoPartException(e.getMessage(), e);
+        } finally {
+            entityManager.close();
+        }
     }
 
 

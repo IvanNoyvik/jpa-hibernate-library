@@ -50,18 +50,30 @@ public class StatusJpaDao extends AbstractJpaCrudDao<Status> implements StatusDa
     @Override
     public Status getLockedStatus() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Status status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")
-                .setParameter("status", LOCKED).getSingleResult();
-        entityManager.close();
+        Status status;
+        try {
+            status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")
+                    .setParameter("status", LOCKED).getSingleResult();
+        } catch (Exception e) {
+            throw new DaoPartException("getLockedStatus Exception", e);
+        } finally {
+            entityManager.close();
+        }
         return status;
     }
 
     @Override
     public Status getLimitedStatus() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Status status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")
-                .setParameter("status", LIMITED).getSingleResult();
-        entityManager.close();
+        Status status;
+        try {
+            status = (Status) entityManager.createQuery("SELECT s from Status s join fetch s.users where s.status = :status")
+                    .setParameter("status", LIMITED).getSingleResult();
+        } catch (Exception e) {
+            throw new DaoPartException("getLimitedStatus Exception", e);
+        } finally {
+            entityManager.close();
+        }
         return status;
     }
 }

@@ -87,7 +87,7 @@
 
                         <label> Genre (/<c:forEach items="${requestScope.book.genres}" var="genre">
                             <c:out value="${genre.genre}"/>/
-                        </c:forEach>)
+                        </c:forEach>)<br/>
                             <select name="genres" multiple="multiple" required size="5">
                                 <c:forEach items="${requestScope.genres}" var="genre">
                                     <c:if test="${requestScope.book.genres.contains(genre)}">

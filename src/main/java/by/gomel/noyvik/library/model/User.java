@@ -27,10 +27,8 @@ public class User {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private Authenticate authenticate;
 
-    @ManyToMany(mappedBy = "users", cascade = {/*CascadeType.PERSIST, */CascadeType.MERGE}, fetch = FetchType.LAZY)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<Role> roles = new HashSet<>();
-                                                //todo check cascade!!!
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE})

@@ -11,7 +11,6 @@ import javax.persistence.NoResultException;
 
 public class AuthorJpaDao extends AbstractJpaCrudDao<Author> implements AuthorDao {
 
-
     @Override
     public Author findByAuthor(String authorStr) {
 

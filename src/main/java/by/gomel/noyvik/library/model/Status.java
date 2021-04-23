@@ -22,8 +22,8 @@ public class Status {
     private Long id;
     private String status;
 
-    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY,     //todo check cascade!!!
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE})
     private Set<User> users = new HashSet<>();
 
     public Status() {

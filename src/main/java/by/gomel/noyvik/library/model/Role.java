@@ -21,7 +21,7 @@ public class Role {
 
     private String role;
 
-    @ManyToMany(/*cascade = {CascadeType.PERSIST, CascadeType.MERGE}*/)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "USERS_ROLES",
     joinColumns = @JoinColumn(name = "ROLES_ID", referencedColumnName = "ID"),
     inverseJoinColumns = @JoinColumn(name = "USERS_ID", referencedColumnName = "ID"))
