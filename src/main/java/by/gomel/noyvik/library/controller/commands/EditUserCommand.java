@@ -21,8 +21,6 @@ public class EditUserCommand extends FrontCommand {
         String name = request.getParameter(NAME);
         String email = request.getParameter(EMAIL);
 
-        //todo pattern check
-
         if (user != null) {
 
 

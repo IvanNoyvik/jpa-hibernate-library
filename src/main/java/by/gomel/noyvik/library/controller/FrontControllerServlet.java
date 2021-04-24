@@ -1,13 +1,11 @@
 package by.gomel.noyvik.library.controller;
 
 import by.gomel.noyvik.library.controller.commands.UnknownCommand;
-import by.gomel.noyvik.library.controller.constant.CommandConstant;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
@@ -32,14 +30,14 @@ public class FrontControllerServlet extends HttpServlet {
             command.process();
         } catch (Exception e) {
 
-               response.sendRedirect(ERROR_PROCESS);
+            response.sendRedirect(ERROR_PROCESS);
 
         }
     }
 
     private FrontCommand getCommand(HttpServletRequest request) {
         try {
-            Class type = Class.forName(String.format( COMMAND_PATH,
+            Class type = Class.forName(String.format(COMMAND_PATH,
                     request.getParameter(COMMAND)));
             return (FrontCommand) type.asSubclass(FrontCommand.class).newInstance();
         } catch (Exception e) {

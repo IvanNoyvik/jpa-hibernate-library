@@ -23,7 +23,6 @@ public class RegistrationCommand extends FrontCommand {
         String name = request.getParameter(NAME);
         String email = request.getParameter(EMAIL);
 
-        //ToDo check pattern
 
         if (LOGIN_PATTERN.matcher(login).matches() && password.length() > 0 && password.length() <= 40) {
 
@@ -37,17 +36,16 @@ public class RegistrationCommand extends FrontCommand {
 
                     redirectWithResp(MAIN_JSP, REGISTRATION_OK);
 
-                }else {
+                } else {
 
                     redirectWithResp(REGISTRATION_JSP, USER_EXISTS);
-
+                    return;
                 }
             } catch (ServiceException e) {
 
-                redirectWithResp(REGISTRATION_JSP, REGISTRATION_FAIL + e.getClass().getSimpleName()); //todo  обернутые экс
+                redirectWithResp(REGISTRATION_JSP, REGISTRATION_FAIL + e.getClass().getSimpleName());
 
             }
-
 
         } else {
 

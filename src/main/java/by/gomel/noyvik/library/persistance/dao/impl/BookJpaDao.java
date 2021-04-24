@@ -6,7 +6,7 @@ import by.gomel.noyvik.library.model.Author;
 import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.model.Genre;
 import by.gomel.noyvik.library.persistance.dao.BookDao;
-import by.gomel.noyvik.library.temp.StringArrayEqual;
+import by.gomel.noyvik.library.util.StringArrayEqual;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

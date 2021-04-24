@@ -67,7 +67,6 @@ public final class ProviderDao {
 
     public <T> CrudDao<?> getDaoByType(Class<T> clazz){
 
-
         if (Authenticate.class.equals(clazz)) {
             return getAuthenticateDao();
         } else if (Author.class.equals(clazz)) {

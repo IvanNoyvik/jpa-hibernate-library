@@ -34,13 +34,13 @@ public class AddBookCommand extends FrontCommand {
         String[] genres = request.getParameterValues(GENRES);
         String author = request.getParameter(AUTHOR);
 
-        if (quantity >= 0 && quantity<=180 && title != null && !title.trim().isEmpty() && genres != null) {
+        if (quantity >= 0 && quantity <= 180 && title != null && !title.trim().isEmpty() && genres != null) {
 
             try {
 
                 Book book = bookService.save(title, description, quantity, genres, author);
 
-                if (book != null){
+                if (book != null) {
 
                     redirectWithResp(MAIN_JSP, ADD_BOOK_OK);
                 } else {

@@ -12,7 +12,7 @@ public class AuthorServiceImpl extends AbstractCrudService<Author> implements Au
 
     @Override
     public Author save(String authorStr) {
-        if (!isExists(authorStr)){
+        if (!isExists(authorStr)) {
             Author author = new Author(authorStr);
             return authorDao.save(author);
         } else {

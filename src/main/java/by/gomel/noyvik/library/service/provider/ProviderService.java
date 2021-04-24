@@ -15,7 +15,8 @@ public final class ProviderService {
     private final GenreService genreService = new GenreServiceImpl();
 
 
-    private ProviderService(){}
+    private ProviderService() {
+    }
 
     public static ProviderService getInstance() {
         return INSTANCE;
@@ -34,7 +35,8 @@ public final class ProviderService {
         return orderService;
     }
 
-    public MessageService getMessageService() { return messageService;
+    public MessageService getMessageService() {
+        return messageService;
     }
 
     public GenreService getGenreService() {

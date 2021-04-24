@@ -26,7 +26,7 @@ public class ChangeStatusCommand extends FrontCommand {
             int duration = (durationStr != null && durationStr.matches("/d+"))
                     ? Integer.parseInt(durationStr) : 0;
 
-            if (STATUSES.contains(status)){
+            if (STATUSES.contains(status)) {
 
                 if (userService.changeStatus(userId, status, duration)) {
 
@@ -43,7 +43,6 @@ public class ChangeStatusCommand extends FrontCommand {
                 redirectWithResp(ADMIN_JSP, UNKNOWN_OPERATION);
 
             }
-
 
 
         } catch (SecurityException e) {

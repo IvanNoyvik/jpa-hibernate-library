@@ -5,13 +5,11 @@ import by.gomel.noyvik.library.model.Author;
 import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.persistance.dao.AuthorDao;
 import by.gomel.noyvik.library.persistance.dao.BookDao;
-import by.gomel.noyvik.library.persistance.dao.GenreDao;
 import by.gomel.noyvik.library.service.BookService;
 
 public class BookServiceImpl extends AbstractCrudService<Book> implements BookService {
 
     private final BookDao bookDao = PROVIDER_DAO.getBookDao();
-    private final GenreDao genreDao = PROVIDER_DAO.getGenreDao();
     private final AuthorDao authorDao = PROVIDER_DAO.getAuthorDao();
 
 
@@ -37,15 +35,13 @@ public class BookServiceImpl extends AbstractCrudService<Book> implements BookSe
         if (!bookDao.findByTitleAndAuthor(title, authorName)) {
 
             try {
-
                 Book book = new Book(title, description, quantity);
                 Author author = authorDao.findByAuthor(authorName);
                 book.setAuthor(author);
                 return bookDao.save(book, genreName);
-            }catch (DaoPartException e){
+            } catch (DaoPartException e) {
                 throw new SecurityException();
             }
-
         } else {
             return null;
         }
@@ -55,14 +51,11 @@ public class BookServiceImpl extends AbstractCrudService<Book> implements BookSe
     @Override
     public Book update(Long bookId, String title, String description, int quantity, String[] genres, String author) {
 
-
-            try {
-
-                return bookDao.update(bookId, title, description, quantity, genres, author);
-
-            }catch (DaoPartException e){
-                throw new SecurityException();
-            }
+        try {
+            return bookDao.update(bookId, title, description, quantity, genres, author);
+        } catch (DaoPartException e) {
+            throw new SecurityException();
+        }
 
 
     }

@@ -1,4 +1,4 @@
-package by.gomel.noyvik.library.temp;
+package by.gomel.noyvik.library.util;
 
 import java.time.LocalDate;
 

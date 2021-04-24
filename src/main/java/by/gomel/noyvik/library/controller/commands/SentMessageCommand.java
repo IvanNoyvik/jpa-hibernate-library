@@ -13,7 +13,7 @@ import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
 
 public class SentMessageCommand extends FrontCommand {
 
-    private  final MessageService messageService = PROVIDER_SERVICE.getMessageService();
+    private final MessageService messageService = PROVIDER_SERVICE.getMessageService();
 
 
     @Override
@@ -22,7 +22,7 @@ public class SentMessageCommand extends FrontCommand {
         String context = request.getParameter(CONTEXT);
         User user = (User) request.getSession().getAttribute(USER);
 
-        if (user != null && !context.isEmpty() && context.length() < 255){
+        if (user != null && !context.isEmpty() && context.length() < 255) {
 
             try {
 

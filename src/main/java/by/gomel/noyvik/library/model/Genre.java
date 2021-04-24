@@ -29,7 +29,6 @@ public class Genre {
     private Set<Book> books = new HashSet<>();
 
 
-
     public Genre(String genre) {
         this.genre = genre;
     }

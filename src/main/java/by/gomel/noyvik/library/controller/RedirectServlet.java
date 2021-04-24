@@ -17,18 +17,15 @@ public class RedirectServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String target = request.getParameter("target");
 
-        if (target == null || target.isEmpty()){
+        if (target == null || target.isEmpty()) {
             target = "main";
         }
         attributeSetter.mapAndSetAttribute(target, request);
-//        SetAttribute.setAttribute(target, request);
         String path = "/" + target + ".jsp";
         getServletContext().getRequestDispatcher(path).forward(request, response);
     }

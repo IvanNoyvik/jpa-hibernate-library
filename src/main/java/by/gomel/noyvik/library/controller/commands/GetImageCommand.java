@@ -1,16 +1,15 @@
 package by.gomel.noyvik.library.controller.commands;
 
 import by.gomel.noyvik.library.controller.FrontCommand;
-import by.gomel.noyvik.library.service.provider.ProviderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 
-import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
+import static by.gomel.noyvik.library.controller.constant.CommandConstant.BOOK_ID;
+import static by.gomel.noyvik.library.controller.constant.CommandConstant.NO_IMAGE;
 
 public class GetImageCommand extends FrontCommand {
-
 
 
     @Override

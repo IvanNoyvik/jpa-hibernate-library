@@ -1,22 +1,17 @@
 package by.gomel.noyvik.library.controller.commands;
 
 import by.gomel.noyvik.library.controller.FrontCommand;
-import by.gomel.noyvik.library.model.Book;
-import by.gomel.noyvik.library.model.Order;
 import by.gomel.noyvik.library.model.User;
-import by.gomel.noyvik.library.service.BookService;
 import by.gomel.noyvik.library.service.OrderService;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.time.LocalDate;
 
 import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
 
 public class AddOrderCommand extends FrontCommand {
 
     private final OrderService orderService = PROVIDER_SERVICE.getOrderService();
-//    private final BookService BOOK_DAO = PROVIDER_SERVICE.getBookService();
 
 
     @Override
@@ -42,7 +37,7 @@ public class AddOrderCommand extends FrontCommand {
 
             try {
 
-                Order order = orderService.addOrder(user, bookId, duration);
+                orderService.addOrder(user, bookId, duration);
             } catch (Exception e) {
 
                 redirectWithResp(MAIN_JSP, ADD_ORDER_FAIL);

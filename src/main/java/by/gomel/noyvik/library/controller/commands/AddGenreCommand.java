@@ -12,7 +12,7 @@ import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
 
 public class AddGenreCommand extends FrontCommand {
 
-    private  final GenreService genreService = PROVIDER_SERVICE.getGenreService();
+    private final GenreService genreService = PROVIDER_SERVICE.getGenreService();
 
 
     @Override

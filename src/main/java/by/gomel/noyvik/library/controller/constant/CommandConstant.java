@@ -14,7 +14,7 @@ public interface CommandConstant {
 
 
 
-    String LOGIN_PATTERN_REGX = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,40}[a-zA-Z0-9]$";
+    String LOGIN_PATTERN_REGX = "[a-zA-Z0-9]{3,40}";
     Pattern LOGIN_PATTERN = Pattern.compile(LOGIN_PATTERN_REGX);
     //command
 

@@ -1,6 +1,5 @@
 package by.gomel.noyvik.library.service.impl;
 
-import by.gomel.noyvik.library.exception.DaoPartException;
 import by.gomel.noyvik.library.exception.ServiceException;
 import by.gomel.noyvik.library.model.Book;
 import by.gomel.noyvik.library.model.Order;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl extends AbstractCrudService<Order> implements OrderService {
 
     private final OrderDao orderDao = PROVIDER_DAO.getOrderDao();
-    private final BookDao bookDao  = PROVIDER_DAO.getBookDao();
+    private final BookDao bookDao = PROVIDER_DAO.getBookDao();
 
 
     @Override
@@ -34,11 +33,7 @@ public class OrderServiceImpl extends AbstractCrudService<Order> implements Orde
 
         List<Order> orders = orderDao.findAll();
 
-        List<Order> overdueOrders = orders.stream()
-                .filter(o -> o.getDateReceiving().plusDays(o.getDuration()).isBefore(LocalDate.now()))
-                .collect(Collectors.toList());
-
-        return overdueOrders;
+        return getOverdueOrders(orders);
     }
 
     @Override
@@ -51,7 +46,7 @@ public class OrderServiceImpl extends AbstractCrudService<Order> implements Orde
 
         Book book = bookDao.findById(bookID);
 
-        if (book.getQuantity() > 0 && !userHaveBook(bookID, user.getId())){
+        if (book.getQuantity() > 0 && !userHaveBook(bookID, user.getId())) {
             Order order = new Order(LocalDate.now(), duration, book, user);
 
             Order newOrder = orderDao.save(order);
@@ -68,5 +63,10 @@ public class OrderServiceImpl extends AbstractCrudService<Order> implements Orde
         }
     }
 
+    private List<Order> getOverdueOrders(List<Order> orders) {
+        return orders.stream()
+                .filter(o -> o.getDateReceiving().plusDays(o.getDuration()).isBefore(LocalDate.now()))
+                .collect(Collectors.toList());
+    }
 
 }

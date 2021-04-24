@@ -118,8 +118,6 @@ public class UserServiceImpl extends AbstractCrudService<User> implements UserSe
                 if (status.equals(LOCKED) && !user.getOrders().isEmpty()) {
 
                     orderDao.removeAllOrder(userId);
-
-
                     userDao.changeStatus(userId, status, duration);
 
                 } else {

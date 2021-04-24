@@ -17,6 +17,5 @@ public interface UserService extends CrudService<User> {
 
     Map<User, Integer> findUserWithCountOverdueOrder();
 
-
     boolean changeStatus(Long userId, String status, int duration);
 }

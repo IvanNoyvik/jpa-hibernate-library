@@ -1,4 +1,4 @@
-package by.gomel.noyvik.library.temp.filter;
+package by.gomel.noyvik.library.util.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

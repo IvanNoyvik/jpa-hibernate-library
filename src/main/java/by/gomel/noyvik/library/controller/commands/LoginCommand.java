@@ -12,7 +12,6 @@ import static by.gomel.noyvik.library.controller.constant.CommandConstant.*;
 public class LoginCommand extends FrontCommand {
 
 
-
     @Override
     public void process() throws ServletException, IOException {
 
@@ -37,7 +36,7 @@ public class LoginCommand extends FrontCommand {
 
         if (user != null) {
 
-             request.getSession().setAttribute(USER, user);
+            request.getSession().setAttribute(USER, user);
 
             if (!user.getStatus().getStatus().equalsIgnoreCase(LOCKED)) {
 

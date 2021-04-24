@@ -1,8 +1,8 @@
-package by.gomel.noyvik.library.temp.listener;
+package by.gomel.noyvik.library.util.listener;
 
 import by.gomel.noyvik.library.persistance.connection.ProviderDao;
 import by.gomel.noyvik.library.persistance.dao.RoleDao;
-import by.gomel.noyvik.library.temp.CurrentDate;
+import by.gomel.noyvik.library.util.CurrentDate;
 import org.h2.tools.Server;
 
 import javax.servlet.ServletContextEvent;

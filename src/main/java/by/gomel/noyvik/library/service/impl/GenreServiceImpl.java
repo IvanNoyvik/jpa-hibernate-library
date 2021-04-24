@@ -11,12 +11,13 @@ public class GenreServiceImpl extends AbstractCrudService<Genre> implements Genr
 
     @Override
     public Genre save(String genreStr) {
-        if (!isExists(genreStr)){
+        if (!isExists(genreStr)) {
             Genre genre = new Genre(genreStr);
             return genreDao.save(genre);
         } else {
             throw new ServiceException();
-        }    }
+        }
+    }
 
     @Override
     public boolean isExists(String genreStr) {

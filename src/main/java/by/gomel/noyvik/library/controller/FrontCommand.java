@@ -38,7 +38,6 @@ public abstract class FrontCommand {
     protected void forward(String target) throws ServletException, IOException {
 
         attributeSetter.mapAndSetAttribute(target, request);
-//            SetAttribute.setAttribute(target, request);
 
         target = PREFIX + target + POSTFIX;
         RequestDispatcher dispatcher = context.getRequestDispatcher(target);

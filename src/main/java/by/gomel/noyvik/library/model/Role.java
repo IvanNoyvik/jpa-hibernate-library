@@ -23,8 +23,8 @@ public class Role {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "USERS_ROLES",
-    joinColumns = @JoinColumn(name = "ROLES_ID", referencedColumnName = "ID"),
-    inverseJoinColumns = @JoinColumn(name = "USERS_ID", referencedColumnName = "ID"))
+            joinColumns = @JoinColumn(name = "ROLES_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USERS_ID", referencedColumnName = "ID"))
     private Set<User> users = new HashSet<>();
 
 
